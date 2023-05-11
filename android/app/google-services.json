@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "92971777306",
+    "firebase_url": "https://mygymbook-94790-default-rtdb.firebaseio.com",
+    "project_id": "mygymbook-94790",
+    "storage_bucket": "mygymbook-94790.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92971777306:android:39839b9d6b94bea5af40a3",
+        "android_client_info": {
+          "package_name": "br.com.baz.my_gym_book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "92971777306-3jsijufupml26aonabtg5mla3omsc2hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhto-05sWMNRNby9kyunIVl1SgsZVnPXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "92971777306-3jsijufupml26aonabtg5mla3omsc2hi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "92971777306-3lbqbcj1hlgpah4d2oiem1hputh7logk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.baz.mygymbook.myGymBook"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92971777306:android:3ce61cc81b9a2533af40a3",
+        "android_client_info": {
+          "package_name": "br.com.baz.my_gym_book.my_gym_book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "92971777306-3jsijufupml26aonabtg5mla3omsc2hi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhto-05sWMNRNby9kyunIVl1SgsZVnPXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "92971777306-3jsijufupml26aonabtg5mla3omsc2hi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "92971777306-3lbqbcj1hlgpah4d2oiem1hputh7logk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.baz.mygymbook.myGymBook"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
