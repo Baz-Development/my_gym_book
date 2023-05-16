@@ -1,0 +1,27 @@
+name: Deploy to Firebase
+
+on:
+  push:
+    tags:
+      - 'release/android'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: appDistributionUpload --token ${{ secrets.FIREBASE_TOKEN }} --app ${{ secrets.FIREBASE_APP_ID }}
