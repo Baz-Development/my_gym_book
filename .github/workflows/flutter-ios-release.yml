@@ -32,4 +32,4 @@ jobs:
         run: firebase login:ci --no-localhost --headless
 
       - name: Upload iOS App to Firebase Distribution
-        run: firebase distribution:appversions upload ./build/ios/archive/Runner.xcarchive.zip --app ${{ secrets.FIREBASE_APP_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
+        run: firebase distribution:appversions upload ./build/ios/archive/Runner.xcarchive.zip --app ${{ secrets.FIREBASE_IOS_APP_ID }} --token ${{ secrets.FIREBASE_TOKEN }}
