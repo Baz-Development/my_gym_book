@@ -3,7 +3,7 @@ name: Firebase hosting Web Release
 on:
   push:
     tags:
-      - 'release/web'
+      - 'release/**'
 
 jobs:
   deploy:

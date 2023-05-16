@@ -3,7 +3,7 @@ name: Flutter iOS Release
 on:
   push:
     tags:
-      - 'release/ios'
+      - 'release/**'
 
 jobs:
   build:

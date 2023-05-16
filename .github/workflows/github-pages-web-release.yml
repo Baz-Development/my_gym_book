@@ -3,7 +3,7 @@ name: Github Pages Web Release
 on:
   push:
     branches:
-      - 'release/web'
+      - 'release/**'
 
 jobs:
   build:

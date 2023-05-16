@@ -3,7 +3,7 @@ name: Flutter ANDROID Release
 on:
   push:
     tags:
-      - 'release/android'
+      - 'release/**'
 
 jobs:
   deploy:
