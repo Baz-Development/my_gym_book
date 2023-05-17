@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: web-release
-          path: ./build/web
+          path: ./build/web 
 
   deploy:
     name: Deploy Web Build
