@@ -16,9 +16,10 @@ jobs:
           java-version: '12.x'
           cache: gradle
 
-      - uses: dart-lang/setup-dart@v1
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          sdk: flutter
+          flutter-version: '2.x'  # Substitua pela versão desejada, como '2.10.1'
 
       - name: Upgrade Flutter to the latest version
         run: flutter upgrade
