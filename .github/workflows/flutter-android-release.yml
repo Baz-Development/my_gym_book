@@ -27,6 +27,11 @@ jobs:
       - name: Setup Flutter
         run: flutter config --no-analytics
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'  # Substitua pela versão desejada, como '16.13'
+
       - name: Get dependencies
         run: flutter pub get
 
