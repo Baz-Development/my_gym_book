@@ -245,7 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen>{
       debugPrint("user created");
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => const HomeScreen(title: 'My Gym Book',)
+              builder: (context) => const HomeScreen()
           ),
               (Route<dynamic> route) => false
       );

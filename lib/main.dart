@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
     if (user == null || user.isAnonymous == true) {
       return const WelcomeScreen();
     } else {
-      return const HomeScreen(title: "My Gym Book");
+      return const HomeScreen();
     }
   }
 }

@@ -167,7 +167,7 @@ class _SignInScreenState extends State<SignInScreen>{
       debugPrint("user logged");
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-              builder: (context) => const HomeScreen(title: 'My Gym Book',)
+              builder: (context) => const HomeScreen()
           ),
               (Route<dynamic> route) => false
       );
