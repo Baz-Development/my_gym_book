@@ -7,7 +7,7 @@ Future<void> createUser(UserModel user) async {
   await FirebaseFirestore
     .instance
     .collection("users")
-    .doc(user.userId)
+    .doc(user.email)
     .set(
       {
         "fullname": user.fullname,
@@ -16,11 +16,11 @@ Future<void> createUser(UserModel user) async {
     );
 }
 
-Future<UserModel> getUser(String userId) async {
+Future<UserModel> getUser(String email) async {
   var res = await FirebaseFirestore
     .instance
     .collection("users")
-    .doc(userId)
+    .doc(email)
     .get();
   var data = res.data();
   if (data == null) {
@@ -29,8 +29,7 @@ Future<UserModel> getUser(String userId) async {
 
   UserModel user = UserModel(
     data["fullname"],
-    data["email"],
-    userId
+    data["email"]
   );
   return user;
 }
@@ -39,7 +38,7 @@ Future<void> editUserdb(UserModel user) async {
   await FirebaseFirestore
     .instance
     .collection("users")
-    .doc(user.userId)
+    .doc(user.email)
     .update(
       {
         "fullname": user.fullname,
@@ -48,10 +47,10 @@ Future<void> editUserdb(UserModel user) async {
     );
 }
 
-Future<void> deleteUser(String userId) async {
+Future<void> deleteUser(String email) async {
   await FirebaseFirestore
       .instance
       .collection("users")
-      .doc(userId)
+      .doc(email)
       .delete();
 }

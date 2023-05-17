@@ -11,11 +11,11 @@ class PartyScreen extends StatefulWidget {
 }
 class _PartyScreenState extends State<PartyScreen>{
   List<UserModel> items = [
-    UserModel("Felipe", "fbazmitsuishi@gmail.com", "123456789"),
-    UserModel("Davi Dias", "Dias@gmail.com", "123456123"),
-    UserModel("Davi Giuberti", "Giuberti.com", "123456432"),
-    UserModel("Lua", "Lua@gmail.com", "123456789"),
-    UserModel("Henrique", "Henrique@gmail.com", "123456321"),
+    UserModel("Felipe", "fbazmitsuishi@gmail.com"),
+    UserModel("Davi Dias", "Dias@gmail.com"),
+    UserModel("Davi Giuberti", "Giuberti.com"),
+    UserModel("Lua", "Lua@gmail.com"),
+    UserModel("Henrique", "Henrique@gmail.com"),
   ];
 
   @override
@@ -62,7 +62,7 @@ class _PartyScreenState extends State<PartyScreen>{
             );
           },
           child: Dismissible(
-            key: Key(item.userId),
+            key: Key(item.email),
             background: Container(
               color: Colors.red,
               alignment: Alignment.centerRight,
