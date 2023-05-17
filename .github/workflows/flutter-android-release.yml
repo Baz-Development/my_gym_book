@@ -16,11 +16,15 @@ jobs:
           java-version: '12.x'
           cache: gradle
 
-      - uses: subosito/flutter-action@v2
+      - uses: dart-lang/setup-dart@v1
         with:
-          flutter-version: '2.19.1'
-          channel: 'stable'
-          cache: true
+          sdk: flutter
+
+      - name: Upgrade Flutter to the latest version
+        run: flutter upgrade
+
+      - name: Setup Flutter
+        run: flutter config --no-analytics
 
       - name: Get dependencies
         run: flutter pub get
