@@ -6,22 +6,41 @@ on:
       - 'release/**'
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Java
-        uses: actions/setup-java@v2
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
         with:
-          java-version: '11'
-
-      - name: Build APK
-        run: flutter build apk --release
-
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
         with:
-          args: appDistributionUpload --token ${{ secrets.FIREBASE_TOKEN }} --app ${{ secrets.FIREBASE_ANDROID_APP_ID }}
+          channel: 'beta'
+      # Get flutter dependencies.
+      - run: flutter pub get
+
+      # Check for any formatting issues in the code.
+      - run: flutter format --set-exit-if-changed .
+
+      # Statically analyze the Dart code for any errors.
+      - run: flutter analyze .
+
+      # Run widget tests for our flutter project.
+      - run: flutter test
+
+      # Build apk.
+      - run: flutter build apk
+
+        # Upload generated apk to the artifacts.
+        uses: actions/upload-artifact@master
+        with:
+          name: apk-release
+          path: build/app/outputs/bundle/release/app-release.apk
+
+      - name: Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.2.1
+        with:
+          appId: ${{secrets.FIREBASE_ANDROID_APPID}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: testers
+          file: app/build/outputs/apk/release/app-release-unsigned.apk
