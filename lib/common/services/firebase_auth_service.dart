@@ -32,7 +32,7 @@ Future<String?> signInFirebaseEmail(String email, String password) async {
         email: email,
         password: password
     );
-    return user.user?.uid;
+    return email;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       debugPrint('Email não cadastrado.');

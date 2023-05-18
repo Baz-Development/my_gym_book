@@ -12,6 +12,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("My Gym Book"),
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

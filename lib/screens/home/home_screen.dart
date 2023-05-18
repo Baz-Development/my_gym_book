@@ -22,10 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("My Gym Book"),
-        centerTitle: true,
-      ),
       backgroundColor: const Color.fromRGBO(18, 20, 29, 1),
       body: Center(
           child: _screens[_selectedIndex]
