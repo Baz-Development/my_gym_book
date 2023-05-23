@@ -1,25 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
+import 'package:my_gym_book/common/models/user_model.dart';
 import 'package:my_gym_book/repository/firebase_groups_repository.dart';
-import 'package:my_gym_book/screens/party/details/group_details_screen.dart';
 
 class PartyScreen extends StatefulWidget {
-  const PartyScreen({super.key});
+  const PartyScreen({Key? key}) : super(key: key);
 
   @override
   _PartyScreenState createState() => _PartyScreenState();
 }
-class _PartyScreenState extends State<PartyScreen>{
+
+class _PartyScreenState extends State<PartyScreen> {
   final GroupRepository _groupRepository = GroupRepository();
   List<GroupModel> groups = [];
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
     var email = FirebaseAuth.instance.currentUser?.email;
     if (email != null) {
       groups = await _groupRepository.getMyGroups(email);
+      setState(() {});
     }
   }
 
@@ -33,31 +39,22 @@ class _PartyScreenState extends State<PartyScreen>{
           IconButton(
             onPressed: () {
               debugPrint("Add group");
-              _groupRepository.createGroup(group)
+              var group = GroupModel(
+                "grupo 1",
+                [
+                  UserModel(
+                      "fullname",
+                      "email"
+                  )
+                ]
+              );
+              _groupRepository.createGroup(group);
             },
-            icon: const Icon(
-              Icons.add
-            ),
+            icon: const Icon(Icons.add),
           ),
         ],
       ),
-      body:  ListView.builder(
-        itemCount: groups.length,
-        itemBuilder: (context, index) {
-          final group = groups[index];
-          return ListTile(
-            title: Text(group.name),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => GroupDetailsScreen(group: group),
-                ),
-              );
-            },
-          );
-        },
-      ),
+      body: const Text(""),
     );
   }
 }

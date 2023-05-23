@@ -15,6 +15,6 @@ class GroupModel {
 
   Map<String, dynamic> toJson() => {
     'name': name,
-    'users': users
+    'users': users.map((user) => user.toJson()).toList(),
   };
 }

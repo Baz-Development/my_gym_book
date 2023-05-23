@@ -142,11 +142,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void proximoCard() {
-    _pageController.nextPage(duration: const Duration(seconds: 1), curve: Curves.easeIn);
+    _pageController.nextPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
   }
 
   void voltarCard() {
-    _pageController.previousPage(duration: const Duration(seconds: 1), curve: Curves.easeIn);
+    _pageController.previousPage(duration: const Duration(milliseconds: 500), curve: Curves.easeIn);
   }
 
   _setEstado() async {

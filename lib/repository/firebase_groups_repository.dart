@@ -6,12 +6,11 @@ class GroupRepository {
   final String _collectionPath = 'groups';
 
   Future<void> createGroup(GroupModel group) async {
-    await _firestore.collection(_collectionPath).add(group.toJson());
+    var res = await _firestore.collection(_collectionPath).add(group.toJson());
   }
 
   Future<GroupModel?> getGroup(String groupId) async {
-    final DocumentSnapshot doc =
-    await _firestore.collection(_collectionPath).doc(groupId).get();
+    final DocumentSnapshot doc = await _firestore.collection(_collectionPath).doc(groupId).get();
     if (doc.exists) {
       return GroupModel.fromJson(doc.data() as Map<String, dynamic>);
     } else {
@@ -20,8 +19,7 @@ class GroupRepository {
   }
 
   Future<List<GroupModel>> getAllGroups() async {
-    final QuerySnapshot snapshot =
-    await _firestore.collection(_collectionPath).get();
+    final QuerySnapshot snapshot = await _firestore.collection(_collectionPath).get();
     return snapshot.docs
         .map((doc) => GroupModel.fromJson(doc.data() as Map<String, dynamic>))
         .toList();
