@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
+import 'package:my_gym_book/screens/search_user/search_user_screen.dart';
 
 class PartyDetailsScreen extends StatefulWidget {
   final GroupModel group;
@@ -79,6 +80,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
                     child: GestureDetector(
                       onTap: () {
                         debugPrint("Add member");
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchUsersScreen()));
                       },
                       behavior: HitTestBehavior.translucent,
                       child: Container(

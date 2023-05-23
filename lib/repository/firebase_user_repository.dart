@@ -57,3 +57,10 @@ Future<void> deleteUser(String email) async {
       .doc(email)
       .delete();
 }
+
+Future<List<UserModel>> getAllUsers() async {
+  final QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("users").get();
+  return snapshot.docs
+      .map((doc) => UserModel.fromJson(doc.data() as Map<String, dynamic>))
+      .toList();
+}
