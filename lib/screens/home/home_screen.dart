@@ -1,6 +1,7 @@
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_gym_book/screens/my_plans/my_plan_screen.dart';
 import 'package:my_gym_book/screens/party/party_screen.dart';
 import 'package:my_gym_book/screens/workouts/workout_screen.dart';
 
@@ -14,10 +15,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     const WorkoutScreen(),
+    const MyPlansScreen(),
     const PartyScreen()
   ];
 
-  var _selectedIndex = 0;
+  var _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +46,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           FlashyTabBarItem(
+            icon: const Icon(FontAwesomeIcons.calendar),
+            title: const Text(
+              'Meus planos',
+              style: TextStyle(
+                  fontSize: 13
+              ),
+            ),
+          ),
+          FlashyTabBarItem(
             icon: const Icon(Icons.group),
             title: const Text(
-              'Party',
+              'Grupos',
               style: TextStyle(
                   fontSize: 13
               ),

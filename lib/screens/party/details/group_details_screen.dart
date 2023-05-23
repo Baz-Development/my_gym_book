@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
 
-class GroupDetailsScreen extends StatelessWidget {
+class PartyDetailsScreen extends StatefulWidget {
   final GroupModel group;
 
-  GroupDetailsScreen({required this.group});
+  const PartyDetailsScreen({super.key, required this.group});
+
+  @override
+  _PartyDetailsScreenState createState() => _PartyDetailsScreenState();
+}
+
+class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
 
   @override
   Widget build(BuildContext context) {
+    final group = widget.group;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do Grupo'),

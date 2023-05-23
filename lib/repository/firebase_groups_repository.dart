@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
+import 'package:my_gym_book/common/models/user_model.dart';
 
 class GroupRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String _collectionPath = 'groups';
 
   Future<void> createGroup(GroupModel group) async {
-    var res = await _firestore.collection(_collectionPath).add(group.toJson());
+    await _firestore.collection(_collectionPath).add(group.toJson());
+    print("Criado");
   }
 
   Future<GroupModel?> getGroup(String groupId) async {
@@ -25,10 +27,10 @@ class GroupRepository {
         .toList();
   }
 
-  Future<List<GroupModel>> getMyGroups(String userEmail) async {
+  Future<List<GroupModel>> getMyGroups(UserModel user) async {
     final QuerySnapshot snapshot = await _firestore
         .collection(_collectionPath)
-        .where('participants', arrayContains: userEmail)
+        .where('users', arrayContains: user.toJson())
         .get();
     return snapshot.docs
         .map((doc) => GroupModel.fromJson(doc.data() as Map<String, dynamic>))

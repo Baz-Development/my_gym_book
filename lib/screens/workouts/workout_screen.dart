@@ -17,29 +17,29 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+      body: const SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(
+              SizedBox(
                 height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
                     "My Workouts",
                     style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              const SizedBox(
+              SizedBox(
                 height: 10,
               ),
-              const WorkoutGrid()
+              WorkoutGrid()
             ],
           ),
         ),

@@ -11,7 +11,9 @@ class GroupModel {
 
   GroupModel.fromJson(Map<String, dynamic> json)
       : name = json['name'],
-        users = json['users'];
+        users = (json['users'] as List<dynamic>)
+            .map((userJson) => UserModel.fromJson(userJson))
+            .toList();
 
   Map<String, dynamic> toJson() => {
     'name': name,
