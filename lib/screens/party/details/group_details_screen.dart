@@ -80,7 +80,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
                     child: GestureDetector(
                       onTap: () {
                         debugPrint("Add member");
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchUsersScreen()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchUsersScreen(group: group)));
                       },
                       behavior: HitTestBehavior.translucent,
                       child: Container(

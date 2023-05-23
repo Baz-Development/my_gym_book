@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:my_gym_book/common/models/group_model.dart';
 import 'package:my_gym_book/common/models/user_model.dart';
+import 'package:my_gym_book/repository/firebase_groups_repository.dart';
 import 'package:my_gym_book/repository/firebase_user_repository.dart';
 
 class SearchUsersScreen extends StatefulWidget {
+  final GroupModel group;
+
+  const SearchUsersScreen({super.key, required this.group});
+
   @override
   _SearchUsersScreenState createState() => _SearchUsersScreenState();
 }
@@ -12,6 +18,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   List<UserModel> filteredUserList = [];
   bool isLoading = true;
   TextEditingController searchController = TextEditingController();
+  final GroupRepository _groupRepository = GroupRepository();
 
   @override
   void initState() {
@@ -37,9 +44,16 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   }
 
   void addMember(String email) {
+    addMemberInDB(email);
     // Lógica para adicionar membro
     debugPrint('Membro adicionado: $email');
     Navigator.pop(context); // Fecha o modal
+  }
+
+  Future<void> addMemberInDB(String email) async {
+    var group = widget.group;
+    var user = await getUser(email);
+    _groupRepository.addMember(group.groupId, user);
   }
 
   @override

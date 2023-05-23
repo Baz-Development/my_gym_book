@@ -5,6 +5,7 @@ import 'package:my_gym_book/common/models/user_model.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
 import 'package:my_gym_book/repository/firebase_groups_repository.dart';
 import 'package:my_gym_book/repository/firebase_user_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class NewPartyScreen extends StatefulWidget {
   const NewPartyScreen({super.key});
@@ -86,6 +87,7 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
                        if (_formKey.currentState!.validate()) {
                          var partyName = partyNameController.text;
                          createParty(partyName);
+                         Navigator.pop(context);
                        }
                      },
                    ),
@@ -105,10 +107,11 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
     }
     var user = await getUser(email);
     var group = GroupModel(
-        partyName,
-        [
-          user
-        ]
+      Uuid().v4(),
+      partyName,
+      [
+        user
+      ]
     );
     _groupRepository.createGroup(group);
   }
