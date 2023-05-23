@@ -49,10 +49,6 @@ class _UserSearchModalState extends State<UserSearchModal> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // Realizar a busca do usuário pelo email aqui
-                // Você pode adicionar a lógica de busca de usuário aqui
-                // e atualizar a lista de resultados com as informações encontradas.
-                // Neste exemplo, estamos apenas adicionando um resultado de teste.
                 List<UserModel> response = getUserSearch();
                 setState(() {
                   searchResults.addAll(response);
@@ -90,11 +86,11 @@ class _UserSearchModalState extends State<UserSearchModal> {
 
   List<UserModel> getUserSearch() {
     List<UserModel> items = [
-      UserModel("Felipe", "fbazmitsuishi@gmail.com"),
-      UserModel("Davi Dias", "Dias@gmail.com"),
-      UserModel("Davi Giuberti", "Giuberti.com"),
-      UserModel("Lua", "Lua@gmail.com"),
-      UserModel("Henrique", "Henrique@gmail.com"),
+      UserModel("Felipe", "fbazmitsuishi@gmail.com", "https://thumbs.dreamstime.com/z/imagem-do-perfil-do-homem-34444437.jpg"),
+      UserModel("Davi Dias", "Dias@gmail.com", "https://thumbs.dreamstime.com/z/imagem-do-perfil-do-homem-34444437.jpg"),
+      UserModel("Davi Giuberti", "Giuberti.com", "https://thumbs.dreamstime.com/z/imagem-do-perfil-do-homem-34444437.jpg"),
+      UserModel("Lua", "Lua@gmail.com", "https://thumbs.dreamstime.com/z/imagem-do-perfil-do-homem-34444437.jpg"),
+      UserModel("Henrique", "Henrique@gmail.com", "https://thumbs.dreamstime.com/z/imagem-do-perfil-do-homem-34444437.jpg"),
     ];
     return items;
   }

@@ -23,23 +23,83 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              'Grupo: ${group.name}',
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+          const SizedBox(
+            width: double.infinity,
+            child: Image(
+              image: NetworkImage("https://i.imgur.com/2osZGYs.jpg")
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: group.users.length,
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Text(
+                  group.name,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black54
+                  ),
+                ),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "Grupo - ",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black45
+                        ),
+                      ),
+                      Text(
+                        "${group.users.length} Membro(s)",
+                        style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black45
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+            height: 50,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: group.users.length + 1,
+              separatorBuilder: (context, index) => const SizedBox(width: 25),
               itemBuilder: (context, index) {
-                final member = group.users[index];
-                return ListTile(
-                  title: Text(member.fullname),
+                if (index == group.users.length) {
+                  return SizedBox(
+                    width: 50,
+                    child: GestureDetector(
+                      onTap: () {
+                        debugPrint("Add member");
+                      },
+                      behavior: HitTestBehavior.translucent,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.blue, // Define a cor de fundo como azul
+                          shape: BoxShape.circle, // Define a forma como circular
+                        ),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white, // Define a cor do ícone como branco
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                var user = group.users[index];
+                return SizedBox(
+                  width: 50,
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(user.imagePath),
+                  ),
                 );
               },
             ),

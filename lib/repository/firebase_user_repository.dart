@@ -11,7 +11,8 @@ Future<void> createUser(UserModel user) async {
     .set(
       {
         "fullname": user.fullname,
-        "email": user.email
+        "email": user.email,
+        "imagePath": user.imagePath
       }
     );
 }
@@ -29,7 +30,8 @@ Future<UserModel> getUser(String email) async {
 
   UserModel user = UserModel(
     data["fullname"],
-    data["email"]
+    data["email"],
+    data["imagePath"]
   );
   return user;
 }
@@ -42,7 +44,8 @@ Future<void> editUserdb(UserModel user) async {
     .update(
       {
         "fullname": user.fullname,
-        "email": user.email
+        "email": user.email,
+        "imagePath": user.imagePath
       }
     );
 }

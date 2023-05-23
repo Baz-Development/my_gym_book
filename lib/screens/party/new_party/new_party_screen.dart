@@ -28,21 +28,7 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
         leading: const BackButton(),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            var group = GroupModel(
-                "grupo 1",
-                [
-                  UserModel(
-                      "fullname",
-                      "email"
-                  )
-                ]
-            );
-            _groupRepository.createGroup(group);
-          },
-          child: createNewPartyForms(),
-        ),
+        child: createNewPartyForms()
       )
     );
   }

@@ -223,7 +223,11 @@ class _SignUpScreenState extends State<SignUpScreen>{
   }
 
   void createUserInDB(String email, String fullname, String userId) async {
-    var user = UserModel(fullname, email);
+    var user = UserModel(
+      fullname,
+      email,
+      "https://thumbs.dreamstime.com/z/imagem-do-perfil-do-homem-34444437.jpg"
+    );
     await createUser(user);
   }
 
