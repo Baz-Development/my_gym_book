@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/exercices_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
+import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:my_gym_book/screens/workouts/doing/workout_doing_screen.dart';
 import 'package:my_gym_book/screens/workouts/update_workout/update_workout_screen.dart';
 
@@ -15,6 +16,7 @@ class WorkoutDetailsScreen extends StatefulWidget {
 
 class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
   late WorkoutModel workout;
+  final WorkoutRepository _workoutRepository = WorkoutRepository();
 
   @override
   void initState() {
@@ -32,15 +34,17 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
           IconButton(
             onPressed: () async {
               debugPrint("edit");
-              var updatedWorkout = await Navigator.push(
+              await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UpdateWorkoutScreen(workout: workout)),
               );
-              if (updatedWorkout != null) {
-                setState(() {
-                  workout = updatedWorkout;
-                });
+              var workoutResponse = await _workoutRepository.getWorkout(workout.workoutId);
+              if(workoutResponse == null) {
+                return;
               }
+              setState(() {
+                workout = workoutResponse;
+              });
             },
             icon: const Icon(Icons.edit),
           )

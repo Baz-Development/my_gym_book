@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
+import 'package:my_gym_book/screens/workouts/exercices/exercise_list_screen.dart';
 
 class UpdateWorkoutScreen extends StatefulWidget {
   final WorkoutModel workout;
@@ -16,12 +17,32 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final workout = widget.workout;
+    var workout = widget.workout;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Gym Book"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              debugPrint("Add workout");
+              final value = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ExerciseListScreen(workoutId: workout.workoutId)),
+              );
+              if (value != null) {
+                debugPrint("Should Update workouts");
+                var response = await _workoutRepository.getWorkout(workout.workoutId);
+                if (response == null) {
+                  return;
+                }
+                workout = response;
+              }
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: Column(
         children: [
