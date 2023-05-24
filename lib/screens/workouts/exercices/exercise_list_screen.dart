@@ -46,9 +46,6 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
             ),
             title: Text(exercise.title),
             subtitle: Text('Séries: ${exercise.series}'),
-            trailing: exercise.isCompleted
-                ? const Icon(Icons.check_circle, color: Colors.green)
-                : const Icon(Icons.check_circle_outline, color: Colors.grey),
             onTap: () {
               _navigateToExerciseUpdateScreen(exercises[index]);
             },
