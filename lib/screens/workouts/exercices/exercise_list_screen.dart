@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/exercices_model.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:my_gym_book/screens/workouts/exercices/new_exercice/exercise_creation_screen.dart';
+import 'package:my_gym_book/screens/workouts/exercices/update_exercice/exercise_update_screen.dart';
 
 class ExerciseListScreen extends StatefulWidget {
   final String workoutId;
@@ -49,7 +50,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
                 ? const Icon(Icons.check_circle, color: Colors.green)
                 : const Icon(Icons.check_circle_outline, color: Colors.grey),
             onTap: () {
-              // Lógica quando um exercício é clicado
+              _navigateToExerciseUpdateScreen(exercises[index]);
             },
           );
         },
@@ -67,6 +68,17 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
     final newExercise = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ExerciseCreationScreen(workoutId: widget.workoutId)),
+    );
+
+    if (newExercise != null) {
+      fetchData();
+    }
+  }
+
+  void _navigateToExerciseUpdateScreen(ExercicesModel exercise) async {
+    final newExercise = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ExerciseUpdateScreen(workoutId: widget.workoutId, exercice: exercise)),
     );
 
     if (newExercise != null) {

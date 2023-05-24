@@ -2,24 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/exercices_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
-import 'package:uuid/uuid.dart';
 
-class ExerciseCreationScreen extends StatelessWidget {
+class ExerciseUpdateScreen extends StatelessWidget {
+  final ExercicesModel exercice;
+  final String workoutId;
   final WorkoutRepository _workoutRepository = WorkoutRepository();
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _seriesController = TextEditingController();
   final TextEditingController _repetitionCountController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _intervalController = TextEditingController();
-  final String workoutId;
 
-  ExerciseCreationScreen({super.key, required this.workoutId});
+  ExerciseUpdateScreen({Key? key, required this.exercice, required this.workoutId}) : super(key: key) {
+    _titleController.text = exercice.title;
+    _seriesController.text = exercice.series.toString();
+    _repetitionCountController.text = exercice.repetitionCount.toString();
+    _weightController.text = exercice.weight;
+    _intervalController.text = exercice.interval.toString();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Criar Exercício'),
+        title: const Text('Editar Exercício'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -52,9 +59,9 @@ class ExerciseCreationScreen extends StatelessWidget {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                _createExercise(context);
+                _updateExercise(context);
               },
-              child: const Text('Criar'),
+              child: const Text('Atualizar'),
             ),
           ],
         ),
@@ -62,7 +69,7 @@ class ExerciseCreationScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _createExercise(BuildContext context) async {
+  Future<void> _updateExercise(BuildContext context) async {
     final title = _titleController.text;
     final series = int.tryParse(_seriesController.text) ?? 0;
     final repetitionCount = int.tryParse(_repetitionCountController.text) ?? 0;
@@ -70,8 +77,8 @@ class ExerciseCreationScreen extends StatelessWidget {
     final interval = int.tryParse(_intervalController.text) ?? 0;
 
     if (title.isNotEmpty && series > 0 && repetitionCount > 0 && weight.isNotEmpty && interval > 0) {
-      final newExercise = ExercicesModel(
-        exercisesId: const Uuid().v4(),
+      final updatedExercise = ExercicesModel(
+        exercisesId: exercice.exercisesId,
         title: title,
         imagePath: 'https://i.imgur.com/2osZGYs.jpg',
         series: series,
@@ -79,14 +86,18 @@ class ExerciseCreationScreen extends StatelessWidget {
         weight: weight,
         interval: interval,
       );
-      WorkoutModel? workout = await _workoutRepository.getWorkout(workoutId);
-      if (workout == null) {
+
+      WorkoutModel? fetchedWorkout = await _workoutRepository.getWorkout(workoutId);
+      if (fetchedWorkout == null) {
         return;
       }
-      workout.exercices.add(newExercise);
-      await _workoutRepository.updateWorkout(workoutId, workout);
 
-      Navigator.pop(context, newExercise);
+      fetchedWorkout.exercices.removeWhere((x) => x.exercisesId == exercice.exercisesId);
+      fetchedWorkout.exercices.add(updatedExercise);
+
+      await _workoutRepository.updateWorkout(workoutId, fetchedWorkout);
+
+      Navigator.pop(context, updatedExercise);
     } else {
       showDialog(
         context: context,
