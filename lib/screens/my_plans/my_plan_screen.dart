@@ -79,12 +79,17 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
                   vertical: 4.0,
                 ),
                 decoration: BoxDecoration(
-                  border: Border.all(),
+                  color: Colors.blue,
                   borderRadius: BorderRadius.circular(12.0),
                 ),
                 child: ListTile(
                   onTap: () => debugPrint('${value[index]}'),
-                  title: Text('${value[index]}'),
+                  title: Text(
+                    '${value[index]}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               );
             },
@@ -93,6 +98,7 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
       ),
     );
   }
+
 
   TableCalendar<EventModel> buildTableCalendar() {
     return TableCalendar<EventModel>(

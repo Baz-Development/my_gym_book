@@ -75,7 +75,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
-              child: Text('No groups available.'),
+              child: Text('Sem treinos disponiveis.'),
             );
           }
           workouts = snapshot.data!;
@@ -86,17 +86,17 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
   }
 
   SingleChildScrollView workoutList({required List<WorkoutModel> workouts}) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
+    return const SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(
+            SizedBox(
               height: 15,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -105,14 +105,13 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
                 ),
               ],
             ),
-            const SizedBox(
+            SizedBox(
               height: 10,
             ),
-            WorkoutList(workouts: workouts)
+            WorkoutList()
           ],
         ),
       ),
     );
   }
-
 }
