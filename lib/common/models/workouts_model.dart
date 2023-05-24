@@ -1,15 +1,26 @@
-import 'dart:ui';
+import 'package:my_gym_book/common/models/exercices_model.dart';
 
-class Workout {
-  final String name;
-  final String exercises;
-  final double percent;
-  final Color color;
+class WorkoutModel {
+  String workoutId;
+  String name;
+  List<ExercicesModel> exercices;
 
-  Workout({
-    required this.name,
-    required this.exercises,
-    required this.percent,
-    required this.color,
-  });
+  WorkoutModel(
+      this.workoutId,
+      this.name,
+      this.exercices,
+      );
+
+  WorkoutModel.fromJson(Map<String, dynamic> json)
+      : workoutId = json['workoutId'],
+        name = json['name'],
+        exercices = (json['exercices'] as List<dynamic>)
+            .map((exerciceJson) => ExercicesModel.fromJson(exerciceJson))
+            .toList();
+
+  Map<String, dynamic> toJson() => {
+    'groupId': workoutId,
+    'name': name,
+    'exercices': exercices.map((exercice) => exercice.toJson()).toList(),
+  };
 }

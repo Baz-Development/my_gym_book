@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/constant.dart';
-import 'package:my_gym_book/widgets/workouts_grid.dart';
+import 'package:my_gym_book/widgets/workouts_list.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -39,7 +39,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
               SizedBox(
                 height: 10,
               ),
-              WorkoutGrid()
+              WorkoutList()
             ],
           ),
         ),

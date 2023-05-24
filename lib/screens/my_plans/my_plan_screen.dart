@@ -24,5 +24,4 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
       ),
     );
   }
-
 }
