@@ -13,22 +13,33 @@ class WorkoutDetailsScreen extends StatefulWidget {
 }
 
 class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
+  var workout;
+
+  @override
+  void initState() {
+    super.initState();
+    workout = widget.workout;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final workout = widget.workout;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("My Gym Book"),
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               debugPrint("edit");
-              Navigator.push(
+              var updatedWorkout = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const UpdateWorkoutScreen()),
+                MaterialPageRoute(builder: (context) => UpdateWorkoutScreen(workout: workout)),
               );
+              if (updatedWorkout != null) {
+                setState(() {
+                  workout = updatedWorkout;
+                });
+              }
             },
             icon: const Icon(Icons.edit),
           )
@@ -52,10 +63,10 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
             padding: const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 100),
             child: Column(
               children: [
-                Text(workout.description)
+                Text(workout.description),
               ],
             ),
-          )
+          ),
         ],
       ),
       floatingActionButton: Container(

@@ -25,11 +25,11 @@ class WorkoutRepository {
         .toList();
   }
 
-  Future<void> updateWorkout(String workoutId, WorkoutModel group) async {
+  Future<void> updateWorkout(String workoutId, WorkoutModel workout) async {
     await _firestore
         .collection(_collectionPath)
         .doc(workoutId)
-        .update(group.toJson());
+        .update(workout.toJson());
   }
 
   Future<void> deleteWorkout(String workoutId) async {

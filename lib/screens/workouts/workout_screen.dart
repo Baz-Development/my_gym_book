@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'dart:async';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
+import 'package:my_gym_book/screens/workouts/details/workout_details_screen.dart';
 import 'package:my_gym_book/screens/workouts/new_workout/new_workout_screen.dart';
-import 'package:my_gym_book/widgets/workouts_list.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -46,7 +46,7 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
           IconButton(
             onPressed: () async {
               debugPrint("Add workout");
-              final value =  await Navigator.push(
+              final value = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const NewWorkoutScreen()),
               );
@@ -86,17 +86,17 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
   }
 
   SingleChildScrollView workoutList({required List<WorkoutModel> workouts}) {
-    return const SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -105,13 +105,76 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            WorkoutList()
+            workoutListBuilder()
           ],
         ),
       ),
     );
   }
+
+  Future<void> _deleteWorkout(int index) async {
+    debugPrint("Excluir treino");
+    await _workoutRepository.deleteWorkout(workouts[index].workoutId);
+    await fetchData(); // Atualiza a lista de treinos após a exclusão
+    _showSuccessMessage('Treino deletado com sucesso!');
+  }
+
+  void _showSuccessMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  Future<void> _navigateToWorkoutDetailsScreen(int index) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WorkoutDetailsScreen(workout: workouts[index]),
+      ),
+    );
+    await fetchData(); // Atualiza a lista de treinos após a atualização do treino
+  }
+
+  Widget workoutListBuilder() {
+    return ListView.builder(
+      itemCount: workouts.length,
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () => _navigateToWorkoutDetailsScreen(index),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    workouts[index].name,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.white),
+                    onPressed: () => _deleteWorkout(index),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
 }
