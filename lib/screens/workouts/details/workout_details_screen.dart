@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/screens/workouts/doing/workout_doing_screen.dart';
+import 'package:my_gym_book/screens/workouts/update_workout/update_workout_screen.dart';
 
 class WorkoutDetailsScreen extends StatefulWidget {
   final WorkoutModel workout;
@@ -24,6 +25,10 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
           IconButton(
             onPressed: () {
               debugPrint("edit");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UpdateWorkoutScreen()),
+              );
             },
             icon: const Icon(Icons.edit),
           )
@@ -43,7 +48,14 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
               style: const TextStyle(fontSize: 18, color: Colors.black54),
             ),
           ),
-          Expanded(child: Container()),
+          Padding(
+            padding: const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 100),
+            child: Column(
+              children: [
+                Text(workout.description)
+              ],
+            ),
+          )
         ],
       ),
       floatingActionButton: Container(

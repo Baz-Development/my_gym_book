@@ -55,10 +55,14 @@ class _PartyScreenState extends State<PartyScreen> {
           IconButton(
             onPressed: () {
               debugPrint("Add group");
-              Navigator.push(
+              var value = Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const NewPartyScreen()),
               );
+              if(value != null) {
+                debugPrint("Should Update groups");
+                fetchData();
+              }
             },
             icon: const Icon(Icons.add),
           ),

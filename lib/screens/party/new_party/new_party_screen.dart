@@ -87,7 +87,7 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
                        if (_formKey.currentState!.validate()) {
                          var partyName = partyNameController.text;
                          createParty(partyName);
-                         Navigator.pop(context);
+                         Navigator.pop(context, 1);
                        }
                      },
                    ),
