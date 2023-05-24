@@ -6,6 +6,7 @@ import 'package:my_gym_book/screens/home/home_screen.dart';
 import 'package:my_gym_book/screens/welcome/onboarding_screen.dart';
 import 'package:my_gym_book/screens/welcome/welcome_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'My Gym Book',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
       home: _active ? getHome() : const OnboardingScreen(),
     );
   }
