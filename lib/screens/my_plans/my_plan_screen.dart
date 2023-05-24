@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_gym_book/common/models/events_model.dart';
 import 'package:my_gym_book/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class MyPlansScreen extends StatefulWidget {
@@ -11,7 +11,7 @@ class MyPlansScreen extends StatefulWidget {
   _MyPlansScreenState createState() => _MyPlansScreenState();
 }
 class _MyPlansScreenState extends State<MyPlansScreen>{
-  late final ValueNotifier<List<Event>> _selectedEvents;
+  late final ValueNotifier<List<EventModel>> _selectedEvents;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _rangeStart;
@@ -31,18 +31,9 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<EventModel> _getEventsForDay(DateTime day) {
     // Implementation example
     return kEvents[day] ?? [];
-  }
-
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
-    // Implementation example
-    final days = daysInRange(start, end);
-
-    return [
-      for (final d in days) ..._getEventsForDay(d),
-    ];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -55,24 +46,6 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
       });
 
       _selectedEvents.value = _getEventsForDay(selectedDay);
-    }
-  }
-
-  void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
-    setState(() {
-      _selectedDay = null;
-      _focusedDay = focusedDay;
-      _rangeStart = start;
-      _rangeEnd = end;
-    });
-
-    // `start` or `end` could be null
-    if (start != null && end != null) {
-      _selectedEvents.value = _getEventsForRange(start, end);
-    } else if (start != null) {
-      _selectedEvents.value = _getEventsForDay(start);
-    } else if (end != null) {
-      _selectedEvents.value = _getEventsForDay(end);
     }
   }
 
@@ -94,35 +67,35 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
 
   Expanded buildEventList() {
     return Expanded(
-          child: ValueListenableBuilder<List<Event>>(
-            valueListenable: _selectedEvents,
-            builder: (context, value, _) {
-              return ListView.builder(
-                itemCount: value.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4.0,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    child: ListTile(
-                      onTap: () => debugPrint('${value[index]}'),
-                      title: Text('${value[index]}'),
-                    ),
-                  );
-                },
+      child: ValueListenableBuilder<List<EventModel>>(
+        valueListenable: _selectedEvents,
+        builder: (context, value, _) {
+          return ListView.builder(
+            itemCount: value.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 12.0,
+                  vertical: 4.0,
+                ),
+                decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: ListTile(
+                  onTap: () => debugPrint('${value[index]}'),
+                  title: Text('${value[index]}'),
+                ),
               );
             },
-          ),
-        );
+          );
+        },
+      ),
+    );
   }
 
-  TableCalendar<Event> buildTableCalendar() {
-    return TableCalendar<Event>(
+  TableCalendar<EventModel> buildTableCalendar() {
+    return TableCalendar<EventModel>(
           locale: 'pt_BR',
           firstDay: kFirstDay,
           lastDay: kLastDay,
@@ -140,7 +113,6 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
             CalendarFormat.month: 'Mês'
           },
           onDaySelected: _onDaySelected,
-          onRangeSelected: _onRangeSelected,
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
           },
