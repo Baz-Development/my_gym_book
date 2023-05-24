@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_gym_book/common/models/exercices_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/screens/workouts/doing/workout_doing_screen.dart';
 import 'package:my_gym_book/screens/workouts/update_workout/update_workout_screen.dart';
@@ -13,7 +14,7 @@ class WorkoutDetailsScreen extends StatefulWidget {
 }
 
 class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
-  var workout;
+  late WorkoutModel workout;
 
   @override
   void initState() {
@@ -60,13 +61,41 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 100),
+            padding: const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 20),
             child: Column(
               children: [
                 Text(workout.description),
               ],
             ),
           ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 80),
+              child: ListView.builder(
+                itemCount: workout.exercices.length,
+                itemBuilder: (context, index) {
+                  ExercicesModel cardItem = workout.exercices[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text(cardItem.title),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Series: ${cardItem.series} Repetições: ${cardItem.repetitionCount}'),
+                          Text('Intervalo: ${cardItem.interval} segundos'),
+                          Text('Carga: ${cardItem.weight}'),
+                        ],
+                      ),
+                      leading: Image(
+                        image: NetworkImage(cardItem.imagePath),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
         ],
       ),
       floatingActionButton: Container(
