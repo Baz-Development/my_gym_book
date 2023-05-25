@@ -71,10 +71,10 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
             height: 50,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: group.users.length + 1,
+              itemCount: group.users.length > 5 ? 6 : group.users.length + 1,
               separatorBuilder: (context, index) => const SizedBox(width: 25),
               itemBuilder: (context, index) {
-                if (index == group.users.length) {
+                if (index == group.users.length || index == 5) {
                   return SizedBox(
                     width: 50,
                     child: GestureDetector(
