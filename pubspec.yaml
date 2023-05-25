@@ -35,6 +35,7 @@ dependencies:
   firebase_core: ^2.4.1 # Recursos basicos
   firebase_auth: ^4.2.5 # Autenticação dos users
   cloud_firestore: ^4.3.1 # Banco de dados
+  firebase_analytics: ^10.4.1 # Analytics do app
   crypto: ^3.0.2
   http: ^0.13.5
   get_storage: ^2.1.1
@@ -49,6 +50,7 @@ dependencies:
   percent_indicator: ^4.2.2
   table_calendar: ^3.0.1
   flutter_localization: ^0.1.11
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

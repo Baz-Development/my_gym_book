@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/screens/welcome/welcome_screen.dart';
 import 'package:my_gym_book/widgets/custom_button.dart';
 import 'package:my_gym_book/widgets/custom_link.dart';
@@ -16,6 +17,16 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseAnalyticsService.logEvent(
+        "onboarding_start",
+        {}
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +148,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void irParaPaginaInicial() {
+    FirebaseAnalyticsService.logEvent(
+        "onboarding_finish",
+        {}
+    );
+
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const WelcomeScreen()));
     _setEstado();
   }

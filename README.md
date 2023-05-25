@@ -1,16 +1,19 @@
+
 # my_gym_book
 
 A new Flutter project.
 
-## Getting Started
+### Firebase analytics
 
-This project is a starting point for a Flutter application.
+Segue a lista de logs e seus parâmetros:
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Log            | Parâmetros                                            |
+| -------------- | ----------------------------------------------------- |
+| welcome        | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                     |
+| apple_login_start    | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                     |
+| google_plus_login_start    | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                     |
+| facebook_login_start    | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                     |
+| onboarding_start    | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                     |
+| onboarding_finish    | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                    |
+| signup_success | {<br>&emsp;&emsp;"fullname": "Felipe Baz",<br>&emsp;&emsp;"email": "fbazmitsuishi@gmail.com",<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>} |
+| signin_success | {<br>&emsp;&emsp;"fullname": "Felipe Baz",<br>&emsp;&emsp;"email": "fbazmitsuishi@gmail.com",<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>} |
