@@ -18,6 +18,7 @@ Segue a lista de logs e seus parâmetros:
 | signup_success           | {<br>&emsp;&emsp;"fullname": "Felipe Baz",<br>&emsp;&emsp;"email": "fbazmitsuishi@gmail.com",<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}      |
 | signin_success           | {<br>&emsp;&emsp;"fullname": "Felipe Baz",<br>&emsp;&emsp;"email": "fbazmitsuishi@gmail.com",<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}      |
 | forget_password          | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                                                                  |
+| home                     | {<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                                                                                  |
 | group                    | {<br>&emsp;&emsp;"email": "fbazmitsuishi@gmail.com",<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                               |
 | group_create_start       | {<br>&emsp;&emsp;"email": "fbazmitsuishi@gmail.com",<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                               |
 | group_created            | {<br>&emsp;&emsp;"email": "fbazmitsuishi@gmail.com",<br>&emsp;&emsp;"datetimeUTC": "2023-05-25T14:30:00Z"<br>}                                               |
