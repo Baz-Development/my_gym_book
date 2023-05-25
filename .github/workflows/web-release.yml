@@ -17,6 +17,7 @@ jobs:
           distribution: 'zulu'
           java-version: "12.x"
           cache: gradle
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.7.3"
@@ -27,7 +28,7 @@ jobs:
         run: flutter pub get
 
       - name: Start Web Release Build
-        run: flutter build web --base-href "/my_gym_book/" --release
+        run: dart compile js -m -o main.dart.js
      
       - name: Upload Web Build Files
         uses: actions/upload-artifact@v2
