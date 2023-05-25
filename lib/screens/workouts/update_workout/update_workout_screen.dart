@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:my_gym_book/screens/workouts/exercices/exercise_list_screen.dart';
 
@@ -14,6 +15,15 @@ class UpdateWorkoutScreen extends StatefulWidget {
 
 class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   final WorkoutRepository _workoutRepository = WorkoutRepository();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAnalyticsService.logEvent(
+        "workout_update_start",
+        {}
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +102,10 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
           onPressed: () async {
             debugPrint("Editar treino");
             _workoutRepository.updateWorkout(workout.workoutId, workout);
+            FirebaseAnalyticsService.logEvent(
+                "workout_update_finish",
+                {}
+            );
             Navigator.pop(context, workout);
           },
           style: ElevatedButton.styleFrom(

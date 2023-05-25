@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_groups_repository.dart';
 import 'package:my_gym_book/repository/firebase_user_repository.dart';
 import 'package:my_gym_book/screens/party/details/group_details_screen.dart';
@@ -17,13 +18,22 @@ class PartyScreen extends StatefulWidget {
 
 class _PartyScreenState extends State<PartyScreen> {
   final GroupRepository _groupRepository = GroupRepository();
-  StreamController<List<GroupModel>> _groupsStreamController =
-  StreamController<List<GroupModel>>();
+  final StreamController<List<GroupModel>> _groupsStreamController = StreamController<List<GroupModel>>();
   List<GroupModel> groups = [];
 
   @override
   void initState() {
     super.initState();
+    var email = FirebaseAuth.instance.currentUser?.email;
+    if (email == null) {
+      return;
+    }
+    FirebaseAnalyticsService.logEvent(
+        "group",
+        {
+          "email": email
+        }
+    );
     fetchData();
   }
 

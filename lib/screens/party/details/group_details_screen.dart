@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/screens/search_user/search_user_screen.dart';
 
 class PartyDetailsScreen extends StatefulWidget {
@@ -12,6 +14,22 @@ class PartyDetailsScreen extends StatefulWidget {
 }
 
 class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
+
+  @override
+  void initState() {
+    super.initState();
+    var email = FirebaseAuth.instance.currentUser?.email;
+    if (email == null) {
+      return;
+    }
+    FirebaseAnalyticsService.logEvent(
+        "group_details",
+        {
+          "email": email,
+          "groupId": widget.group.groupId
+        }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

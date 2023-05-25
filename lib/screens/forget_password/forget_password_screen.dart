@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/services/firebase_auth_service.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
 import 'package:my_gym_book/widgets/header_widget.dart';
@@ -16,6 +17,15 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen>{
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAnalyticsService.logEvent(
+        "forget_password",
+        {}
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

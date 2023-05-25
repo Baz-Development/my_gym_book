@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/exceptions/FirebaseCustomException.dart';
 import 'package:my_gym_book/common/models/user_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/services/firebase_auth_service.dart';
 import 'package:my_gym_book/common/shared_preferences.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
@@ -164,6 +165,15 @@ class _SignInScreenState extends State<SignInScreen>{
       await sharedPref.save("user", user);
 
       debugPrint("user logged");
+
+      FirebaseAnalyticsService.logEvent(
+        "signin_success",
+        {
+          "fullname": user.fullname,
+          "email": user.email
+        }
+      );
+
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => const HomeScreen()

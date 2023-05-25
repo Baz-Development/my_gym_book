@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
 import 'package:my_gym_book/screens/signin/sign_in_screen.dart';
 import 'package:my_gym_book/screens/signup/sign_up_screen.dart';
@@ -15,6 +16,16 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
   final double _headerHeight = 250;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseAnalyticsService.logEvent(
+        "welcome",
+        {}
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +99,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           color: Colors.black
                       ),
                       onTap: () {
+                        FirebaseAnalyticsService.logEvent(
+                            "apple_login_start",
+                            {}
+                        );
                         setState(() {
                           showDialog(
                             context: context,
@@ -106,6 +121,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         color: HexColor("#EC2D2F"),
                       ),
                       onTap: () {
+                        FirebaseAnalyticsService.logEvent(
+                            "google_plus_login_start",
+                            {}
+                        );
                         setState(() {
                           showDialog(
                             context: context,
@@ -124,6 +143,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           color: HexColor("#3E529C")
                       ),
                       onTap: () {
+                        FirebaseAnalyticsService.logEvent(
+                            "facebook_login_start",
+                            {}
+                        );
                         setState(() {
                           showDialog(
                             context: context,

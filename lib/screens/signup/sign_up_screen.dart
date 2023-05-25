@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/exceptions/FirebaseCustomException.dart';
 import 'package:my_gym_book/common/models/user_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/services/firebase_auth_service.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
 import 'package:my_gym_book/repository/firebase_user_repository.dart';
@@ -246,6 +247,15 @@ class _SignUpScreenState extends State<SignUpScreen>{
         return;
       }
       debugPrint("user created");
+
+      FirebaseAnalyticsService.logEvent(
+          "signup_success",
+          {
+            "fullname": fullname,
+            "email": email
+          }
+      );
+
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => const HomeScreen()

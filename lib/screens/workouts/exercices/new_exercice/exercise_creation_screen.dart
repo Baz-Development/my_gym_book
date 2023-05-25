@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/exercices_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:uuid/uuid.dart';
 
@@ -85,23 +86,38 @@ class ExerciseCreationScreen extends StatelessWidget {
       }
       workout.exercices.add(newExercise);
       await _workoutRepository.updateWorkout(workoutId, workout);
-
+      FirebaseAnalyticsService.logEvent(
+          "exercises_create_finish",
+          {}
+      );
       Navigator.pop(context, newExercise);
     } else {
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Campos inválidos'),
-          content: const Text('Preencha todos os campos corretamente.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        ),
+        builder: (context) {
+          FirebaseAnalyticsService.logEvent(
+              "exercises_create_bad_request",
+              {
+                "title": title,
+                "series": series,
+                "repetitionCount": repetitionCount,
+                "weight": weight,
+                "interval": interval
+              }
+          );
+          return AlertDialog(
+            title: const Text('Campos inválidos'),
+            content: const Text('Preencha todos os campos corretamente.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        }
       );
     }
   }
