@@ -3,7 +3,8 @@ name: Web Release
 on:
   push:
     branches:
-      - 'release/web'
+      - 'master'
+      - 'release/**'
 
 jobs:
   build:
@@ -21,7 +22,7 @@ jobs:
           flutter-version: "3.7.3"
           channel: 'stable'
           cache: true
-      
+
       - name: Get dependencies
         run: flutter pub get
 
@@ -40,13 +41,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Download Web Release
-      uses: actions/download-artifact@v2
-      with:
-        name: web-release
+      - name: Download Web Release
+        uses: actions/download-artifact@v2
+        with:
+          name: web-release
 
-    - name: Deploy to gh-pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
