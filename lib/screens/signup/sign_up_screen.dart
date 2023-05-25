@@ -31,7 +31,6 @@ class _SignUpScreenState extends State<SignUpScreen>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(18, 20, 29, 1),
       body: SingleChildScrollView(
         child: Column(
           children: [
