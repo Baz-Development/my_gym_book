@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
 import 'package:my_gym_book/common/models/user_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_groups_repository.dart';
 import 'package:my_gym_book/repository/firebase_user_repository.dart';
 
@@ -47,6 +48,13 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
     addMemberInDB(email);
     // Lógica para adicionar membro
     debugPrint('Membro adicionado: $email');
+    FirebaseAnalyticsService.logEvent(
+        "group_add_member_success",
+        {
+          "groupId": widget.group.groupId,
+          "user_added": email
+        }
+    );
     Navigator.pop(context); // Fecha o modal
   }
 

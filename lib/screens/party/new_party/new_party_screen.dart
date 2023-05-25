@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
 import 'package:my_gym_book/common/models/user_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
 import 'package:my_gym_book/repository/firebase_groups_repository.dart';
 import 'package:my_gym_book/repository/firebase_user_repository.dart';
@@ -19,6 +20,22 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController partyNameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    var email = FirebaseAuth.instance.currentUser?.email;
+    if (email == null) {
+      return;
+    }
+    FirebaseAnalyticsService.logEvent(
+        "group_create_start",
+        {
+          "email": email
+        }
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,5 +131,11 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
       ]
     );
     _groupRepository.createGroup(group);
+    FirebaseAnalyticsService.logEvent(
+        "group_created",
+        {
+          "email": email
+        }
+    );
   }
 }
