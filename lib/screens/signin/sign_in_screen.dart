@@ -30,7 +30,6 @@ class _SignInScreenState extends State<SignInScreen>{
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(18, 20, 29, 1),
       body: SingleChildScrollView(
         child: Column(
           children: [

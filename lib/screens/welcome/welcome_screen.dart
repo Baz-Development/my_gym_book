@@ -19,7 +19,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(18, 20, 29, 1),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,15 +65,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   padding: const EdgeInsets.only(top: 25, left: 24, right: 24),
                   child: ElevatedButton(
                     onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen())),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.white)
-                    ),
                     child: const Text(
                       'Cadastrar',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
-                        color: Colors.lightBlue,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -89,14 +85,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       child: const FaIcon(
                           FontAwesomeIcons.apple,
                           size: 35,
-                          color: Colors.white
+                          color: Colors.black
                       ),
                       onTap: () {
                         setState(() {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return ThemeHelper().alartDialog("Google Plus","You tap on GooglePlus social icon.", context);
+                              return ThemeHelper().alartDialog("Apple","You tap on Apple icon.", context);
                             },
                           );
                         });
