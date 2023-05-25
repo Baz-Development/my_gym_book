@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/exercices_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:my_gym_book/screens/workouts/doing/workout_doing_screen.dart';
 import 'package:my_gym_book/screens/workouts/update_workout/update_workout_screen.dart';
@@ -22,6 +23,10 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
   void initState() {
     super.initState();
     workout = widget.workout;
+    FirebaseAnalyticsService.logEvent(
+        "workout_details",
+        {}
+    );
   }
 
   @override

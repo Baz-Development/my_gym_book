@@ -21,7 +21,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
-
     FirebaseAnalyticsService.logEvent(
         "onboarding_start",
         {}

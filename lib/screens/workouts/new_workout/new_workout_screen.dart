@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -17,6 +18,15 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen>{
 
   TextEditingController workoutTitleController = TextEditingController();
   TextEditingController workoutDescriptionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAnalyticsService.logEvent(
+        "workout_create_start",
+        {}
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,5 +129,9 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen>{
       workoutDescription
     );
     _workoutRepository.createWorkout(workout);
+    FirebaseAnalyticsService.logEvent(
+        "workout_create_finish",
+        {}
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/exercices_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 
 class WorkoutDoingScreen extends StatefulWidget {
   final List<ExercicesModel> exercices;
@@ -11,6 +12,16 @@ class WorkoutDoingScreen extends StatefulWidget {
 }
 
 class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAnalyticsService.logEvent(
+        "workout_doing",
+        {}
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<ExercicesModel> exercices = widget.exercices;

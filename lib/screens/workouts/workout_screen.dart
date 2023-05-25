@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'dart:async';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:my_gym_book/screens/workouts/details/workout_details_screen.dart';
@@ -20,6 +21,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
   void initState() {
     super.initState();
     fetchData();
+    FirebaseAnalyticsService.logEvent(
+        "workout",
+        {}
+    );
   }
 
   Future<void> fetchData() async {
@@ -69,11 +74,21 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
             );
           }
           if (snapshot.hasError) {
+            FirebaseAnalyticsService.logEvent(
+                "workout_error",
+                {
+                  "error": snapshot.error.toString()
+                }
+            );
             return Center(
               child: Text('Error: ${snapshot.error}'),
             );
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            FirebaseAnalyticsService.logEvent(
+                "workout_without_data",
+                {}
+            );
             return const Center(
               child: Text('Sem treinos disponiveis.'),
             );
@@ -119,6 +134,10 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
     debugPrint("Excluir treino");
     await _workoutRepository.deleteWorkout(workouts[index].workoutId);
     await fetchData(); // Atualiza a lista de treinos após a exclusão
+    FirebaseAnalyticsService.logEvent(
+        "workout_delete",
+        {}
+    );
     _showSuccessMessage('Treino deletado com sucesso!');
   }
 
@@ -176,5 +195,4 @@ class _WorkoutScreenState extends State<WorkoutScreen>{
       },
     );
   }
-
 }
