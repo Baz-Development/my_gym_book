@@ -35,4 +35,17 @@ class WorkoutRepository {
   Future<void> deleteWorkout(String workoutId) async {
     await _firestore.collection(_collectionPath).doc(workoutId).delete();
   }
+
+  Future<List<WorkoutModel>> getWorkoutsByIds(List<String> workoutIds) async {
+    final List<WorkoutModel> workouts = [];
+
+    for (String workoutId in workoutIds) {
+      final WorkoutModel? workout = await getWorkout(workoutId);
+      if (workout != null) {
+        workouts.add(workout);
+      }
+    }
+
+    return workouts;
+  }
 }

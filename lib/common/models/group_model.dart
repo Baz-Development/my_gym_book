@@ -5,7 +5,7 @@ class GroupModel {
   String groupId;
   String name;
   List<UserModel> users;
-  List<WorkoutModel> workouts;
+  List<String> workouts;
 
   GroupModel(
       this.groupId,
@@ -20,14 +20,13 @@ class GroupModel {
         users = (json['users'] as List<dynamic>)
             .map((userJson) => UserModel.fromJson(userJson))
             .toList(),
-        workouts = (json['workouts'] as List<dynamic>)
-            .map((workoutJson) => WorkoutModel.fromJson(workoutJson))
-            .toList();
+        workouts = (json['workouts'] as List<dynamic>).cast<String>();
+
 
   Map<String, dynamic> toJson() => {
     'groupId': groupId,
     'name': name,
     'users': users.map((user) => user.toJson()).toList(),
-    'workouts': workouts.map((workout) => workout.toJson()).toList(),
+    'workouts': workouts,
   };
 }

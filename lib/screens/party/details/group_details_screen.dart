@@ -22,6 +22,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
   final _hasMemberList = false;
   final WorkoutRepository _workoutRepository = WorkoutRepository();
   final StreamController<List<WorkoutModel>> _workoutsStreamController = StreamController<List<WorkoutModel>>();
+  List<WorkoutModel> workouts = [];
 
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
     if (email == null) {
       return;
     }
+    fetchWorkoutsData();
     FirebaseAnalyticsService.logEvent(
         "group_details",
         {
@@ -37,6 +39,14 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
           "groupId": widget.group.groupId
         }
     );
+  }
+
+  Future<void> fetchWorkoutsData() async {
+    var workoutRes = await _workoutRepository.getWorkoutsByIds(widget.group.workouts);
+    setState(() {
+      workouts = workoutRes;
+    });
+    _workoutsStreamController.add(workouts);
   }
 
   @override
@@ -177,7 +187,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
               ),
             ],
           ),
-          workoutList(workouts: widget.group.workouts)
+          workoutList(workouts: workouts)
         ],
       ),
     );
@@ -203,7 +213,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
 
   Future<void> _deleteWorkout(int index) async {
     debugPrint("Excluir treino");
-    await _workoutRepository.deleteWorkout(widget.group.workouts[index].workoutId);
+    await _workoutRepository.deleteWorkout(workouts[index].workoutId);
     FirebaseAnalyticsService.logEvent(
         "workout_delete",
         {}
@@ -224,14 +234,14 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutDetailsScreen(workout: widget.group.workouts[index]),
+        builder: (context) => WorkoutDetailsScreen(workout: workouts[index]),
       ),
     ); // Atualiza a lista de treinos após a atualização do treino
   }
 
   Widget workoutListBuilder() {
     return ListView.builder(
-      itemCount: widget.group.workouts.length,
+      itemCount: workouts.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
@@ -249,7 +259,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    widget.group.workouts[index].name,
+                    workouts[index].name,
                     style: const TextStyle(color: Colors.white),
                   ),
                   IconButton(
