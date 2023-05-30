@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
-import 'package:my_gym_book/screens/workouts/exercices/exercise_list_screen.dart';
+import 'package:my_gym_book/screens/exercices/exercise_list_screen.dart';
 
 class UpdateWorkoutScreen extends StatefulWidget {
   final WorkoutModel workout;
