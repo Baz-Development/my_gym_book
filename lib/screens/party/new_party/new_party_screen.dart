@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/group_model.dart';
-import 'package:my_gym_book/common/models/user_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
 import 'package:my_gym_book/repository/firebase_groups_repository.dart';
@@ -124,7 +123,7 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
     }
     var user = await getUser(email);
     var group = GroupModel(
-      Uuid().v4(),
+      const Uuid().v4(),
       partyName,
       [
         user

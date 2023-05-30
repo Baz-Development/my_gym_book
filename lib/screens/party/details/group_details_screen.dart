@@ -21,8 +21,7 @@ class PartyDetailsScreen extends StatefulWidget {
 class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
   final _hasMemberList = false;
   final WorkoutRepository _workoutRepository = WorkoutRepository();
-  StreamController<List<WorkoutModel>> _workoutsStreamController = StreamController<List<WorkoutModel>>();
-  List<WorkoutModel> workouts = [];
+  final StreamController<List<WorkoutModel>> _workoutsStreamController = StreamController<List<WorkoutModel>>();
 
   @override
   void initState() {
@@ -31,7 +30,6 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
     if (email == null) {
       return;
     }
-    fetchData();
     FirebaseAnalyticsService.logEvent(
         "group_details",
         {
@@ -39,14 +37,6 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
           "groupId": widget.group.groupId
         }
     );
-  }
-
-  Future<void> fetchData() async {
-    var workoutRes = await _workoutRepository.getAllWorkouts();
-    setState(() {
-      workouts = workoutRes;
-    });
-    _workoutsStreamController.add(workouts);
   }
 
   @override
@@ -187,38 +177,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
               ),
             ],
           ),
-          StreamBuilder<List<WorkoutModel>>(
-            stream: _workoutsStreamController.stream,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapshot.hasError) {
-                FirebaseAnalyticsService.logEvent(
-                    "workout_error",
-                    {
-                      "error": snapshot.error.toString()
-                    }
-                );
-                return Center(
-                  child: Text('Error: ${snapshot.error}'),
-                );
-              }
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                FirebaseAnalyticsService.logEvent(
-                    "workout_without_data",
-                    {}
-                );
-                return const Center(
-                  child: Text('Sem treinos disponiveis.'),
-                );
-              }
-              workouts = snapshot.data!;
-              return workoutList(workouts: workouts);
-            },
-          ),
+          workoutList(workouts: widget.group.workouts)
         ],
       ),
     );
@@ -244,8 +203,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
 
   Future<void> _deleteWorkout(int index) async {
     debugPrint("Excluir treino");
-    await _workoutRepository.deleteWorkout(workouts[index].workoutId);
-    await fetchData(); // Atualiza a lista de treinos após a exclusão
+    await _workoutRepository.deleteWorkout(widget.group.workouts[index].workoutId);
     FirebaseAnalyticsService.logEvent(
         "workout_delete",
         {}
@@ -266,15 +224,14 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WorkoutDetailsScreen(workout: workouts[index]),
+        builder: (context) => WorkoutDetailsScreen(workout: widget.group.workouts[index]),
       ),
-    );
-    await fetchData(); // Atualiza a lista de treinos após a atualização do treino
+    ); // Atualiza a lista de treinos após a atualização do treino
   }
 
   Widget workoutListBuilder() {
     return ListView.builder(
-      itemCount: workouts.length,
+      itemCount: widget.group.workouts.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
@@ -292,7 +249,7 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    workouts[index].name,
+                    widget.group.workouts[index].name,
                     style: const TextStyle(color: Colors.white),
                   ),
                   IconButton(

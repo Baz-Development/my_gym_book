@@ -1,10 +1,11 @@
 import 'package:my_gym_book/common/models/user_model.dart';
+import 'package:my_gym_book/common/models/workouts_model.dart';
 
 class GroupModel {
   String groupId;
   String name;
   List<UserModel> users;
-  List<String> workouts;
+  List<WorkoutModel> workouts;
 
   GroupModel(
       this.groupId,
@@ -19,12 +20,14 @@ class GroupModel {
         users = (json['users'] as List<dynamic>)
             .map((userJson) => UserModel.fromJson(userJson))
             .toList(),
-        workouts = (json['workouts'] as List<dynamic>).cast<String>();
+        workouts = (json['workouts'] as List<dynamic>)
+            .map((workoutJson) => WorkoutModel.fromJson(workoutJson))
+            .toList();
 
   Map<String, dynamic> toJson() => {
     'groupId': groupId,
     'name': name,
     'users': users.map((user) => user.toJson()).toList(),
-    'workouts': workouts,
+    'workouts': workouts.map((workout) => workout.toJson()).toList(),
   };
 }

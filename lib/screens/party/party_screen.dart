@@ -64,9 +64,9 @@ class _PartyScreenState extends State<PartyScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               debugPrint("Add group");
-              var value = Navigator.push(
+              var value = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const NewPartyScreen()),
               );

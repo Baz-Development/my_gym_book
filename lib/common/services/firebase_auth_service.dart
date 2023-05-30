@@ -24,11 +24,12 @@ Future<String?> registerUser(String email, String password) async {
   } catch (e) {
     debugPrint(e.toString());
   }
+  return null;
 }
 
 Future<String?> signInFirebaseEmail(String email, String password) async {
   try {
-    var user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password
     );

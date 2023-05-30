@@ -8,7 +8,7 @@ import 'package:my_gym_book/screens/workouts/exercices/update_exercice/exercise_
 class ExerciseListScreen extends StatefulWidget {
   final String workoutId;
 
-  ExerciseListScreen({required this.workoutId});
+  const ExerciseListScreen({super.key, required this.workoutId});
 
   @override
   _ExerciseListScreenState createState() => _ExerciseListScreenState();

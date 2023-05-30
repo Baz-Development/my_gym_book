@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
