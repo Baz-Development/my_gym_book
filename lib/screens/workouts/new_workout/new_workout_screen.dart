@@ -65,7 +65,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen>{
                   child: TextFormField(
                     controller: workoutTitleController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: ThemeHelper().textInputDecoration('Titulo do treino', 'Insira o nome do treino'),
+                    decoration: const InputDecoration(labelText: 'Nome do treino', hintText: 'Insira o nome do treino'),
                     validator: (val) {
                       if (val!.isEmpty) {
                         return "A nome é obrigatório";
@@ -80,9 +80,8 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen>{
                   child: TextFormField(
                     controller: workoutDescriptionController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: ThemeHelper().descriptionInputDecoration('Descrição do treino', 'Insira a descrição do treino'),
-                    maxLines: 5, // Define o número máximo de linhas exibidas
-                    minLines: 1, // Define a altura mínima do campo de texto
+                    decoration: const InputDecoration(labelText: 'Descrição do treino', hintText: 'Insira uma breve descrição do treino'),
+                    maxLines: null
                   ),
                 ),
 

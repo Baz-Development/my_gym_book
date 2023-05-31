@@ -29,25 +29,40 @@ class ExerciseCreationScreen extends StatelessWidget {
           children: [
             TextField(
               controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Título'),
+              decoration: const InputDecoration(
+                labelText: 'Nome',
+                  hintText: "Insira um nome para o exercício"
+              ),
             ),
             TextField(
               controller: _seriesController,
-              decoration: const InputDecoration(labelText: 'Séries'),
+              decoration: const InputDecoration(
+                labelText: 'Séries',
+                hintText: "Insira a quantidade de séries"
+              ),
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: _repetitionCountController,
-              decoration: const InputDecoration(labelText: 'Contagem de Repetições'),
+              decoration: const InputDecoration(
+                labelText: 'Contagem de Repetições',
+                  hintText: "Insira quantas repetições devem ser feitas por série"
+              ),
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: _weightController,
-              decoration: const InputDecoration(labelText: 'Peso'),
+              decoration: const InputDecoration(
+                labelText: 'Peso',
+                hintText: "Insira o peso inicial para o exercício, ex: 10 Kg"
+              ),
             ),
             TextField(
               controller: _intervalController,
-              decoration: const InputDecoration(labelText: 'Intervalo'),
+              decoration: const InputDecoration(
+                labelText: 'Intervalo',
+                hintText: "Insira a quantidade de segundos entre exercícios"
+              ),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16.0),

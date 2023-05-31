@@ -69,7 +69,8 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
               padding: const EdgeInsets.all(16.0),
               child: TextField(
                 decoration: const InputDecoration(
-                  labelText: 'Titulo:',
+                  labelText: 'Nome:',
+                  hintText: 'Insira um nome para seu treino...',
                 ),
                 controller: TextEditingController(text: workout.name),
                 onChanged: (value) {
@@ -85,6 +86,7 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
                   TextField(
                     decoration: const InputDecoration(
                       labelText: 'Descrição:',
+                      hintText: 'Insira uma breve descrição do treino...',
                     ),
                     controller: TextEditingController(text: workout.description),
                     onChanged: (value) {
