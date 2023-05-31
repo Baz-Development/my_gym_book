@@ -41,7 +41,11 @@ class _SearchWorkoutScreenState extends State<SearchWorkoutScreen> {
   }
 
   void fetchAllWorkout() async {
-    workoutList = await _workoutRepository.getAllWorkouts();
+    var group = await _groupRepository.getGroup(widget.group.groupId);
+    if(group == null){
+      return;
+    }
+    workoutList = await _workoutRepository.getItemsExcept(group.workouts);
     setState(() {
       filteredWorkoutList = workoutList;
       isLoading = false;
