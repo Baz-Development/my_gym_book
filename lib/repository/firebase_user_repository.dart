@@ -64,3 +64,16 @@ Future<List<UserModel>> getAllUsers() async {
       .map((doc) => UserModel.fromJson(doc.data() as Map<String, dynamic>))
       .toList();
 }
+
+Future<List<UserModel>> getItemsExcept(List<String> excludedDocuments) async {
+  List<UserModel> items = [];
+
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection("users").get();
+
+  for (var doc in querySnapshot.docs) {
+    if (!excludedDocuments.contains(doc.id)) {
+      items.add(UserModel.fromJson(doc.data() as Map<String, dynamic>));
+    }
+  }
+  return items;
+}
