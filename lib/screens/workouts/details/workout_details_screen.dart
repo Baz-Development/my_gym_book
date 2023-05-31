@@ -29,6 +29,16 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
     );
   }
 
+  Future<void> fetchData() async {
+    var workoutResponse = await _workoutRepository.getWorkout(workout.workoutId);
+    if(workoutResponse == null) {
+      return;
+    }
+    setState(() {
+      workout = workoutResponse;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,18 +48,11 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              debugPrint("edit");
               await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => UpdateWorkoutScreen(workout: workout)),
               );
-              var workoutResponse = await _workoutRepository.getWorkout(workout.workoutId);
-              if(workoutResponse == null) {
-                return;
-              }
-              setState(() {
-                workout = workoutResponse;
-              });
+              fetchData();
             },
             icon: const Icon(Icons.edit),
           )
@@ -98,6 +101,14 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
                       leading: Image(
                         image: NetworkImage(cardItem.imagePath),
                       ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          removeExerciceFromWorkout(index: index);
+                        },
+                        icon: const Icon(
+                          Icons.delete
+                        ),
+                      ),
                     ),
                   );
                 },
@@ -112,7 +123,7 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
         height: 50,
         margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => WorkoutDoingScreen(exercices: workout.exercices)),
@@ -128,5 +139,26 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  void _showSuccessMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  Future<void> removeExerciceFromWorkout({required index}) async {
+    debugPrint("remove item");
+    var workout = await _workoutRepository.getWorkout(widget.workout.workoutId);
+    if(workout == null) {
+      return;
+    }
+    workout.exercices.removeAt(index);
+    await _workoutRepository.updateWorkout(workout.workoutId, workout);
+    _showSuccessMessage("Exercicio removido com sucesso!");
+    fetchData();
   }
 }
