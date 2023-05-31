@@ -55,6 +55,6 @@ class GroupRepository {
       return;
     }
     group.users.add(user);
-    updateGroup(groupId, group);
+    await updateGroup(groupId, group);
   }
 }

@@ -36,53 +36,21 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
         itemCount: exercices.length,
         itemBuilder: (context, index) {
           ExercicesModel cardItem = exercices[index];
-          return Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 5, right: 2),
-                child: Container(
-                  width: 5,
-                  height: 75,
-                  decoration: BoxDecoration(
-                    color: cardItem.isCompleted ? Colors.green : Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+          return Card(
+            child: ListTile(
+              title: Text(cardItem.title),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Series: ${cardItem.series} Repetições: ${cardItem.repetitionCount}'),
+                  Text('Intervalo: ${cardItem.interval} segundos'),
+                  Text('Carga: ${cardItem.weight}'),
+                ],
               ),
-              Expanded(
-                child: Card(
-                  child: Dismissible(
-                    key: Key(cardItem.title),
-                    confirmDismiss: (direction) async {
-                      if (direction == DismissDirection.startToEnd) {
-                        setState(() {
-                          cardItem.isCompleted = !cardItem.isCompleted;
-                        });
-                        return false;
-                      } else {
-                        return false;
-                      }
-                    },
-                    background: cardBackgroundByStatus(cardItem.isCompleted),
-                    direction: DismissDirection.startToEnd,
-                    child: ListTile(
-                      title: Text(cardItem.title),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Series: ${cardItem.series} Repetições: ${cardItem.repetitionCount}'),
-                          Text('Intervalo: ${cardItem.interval} segundos'),
-                          Text('Carga: ${cardItem.weight}'),
-                        ],
-                      ),
-                      leading: Image(
-                        image: NetworkImage(cardItem.imagePath),
-                      ),
-                    ),
-                  ),
-                ),
+              leading: Image(
+                image: NetworkImage(cardItem.imagePath),
               ),
-            ],
+            ),
           );
         },
       ),

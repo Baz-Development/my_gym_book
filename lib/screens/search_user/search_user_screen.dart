@@ -44,8 +44,8 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
     });
   }
 
-  void addMember(String email) {
-    addMemberInDB(email);
+  Future<void> addMember(String email) async {
+    await addMemberInDB(email);
     // Lógica para adicionar membro
     debugPrint('Membro adicionado: $email');
     FirebaseAnalyticsService.logEvent(
@@ -61,7 +61,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   Future<void> addMemberInDB(String email) async {
     var group = widget.group;
     var user = await getUser(email);
-    _groupRepository.addMember(group.groupId, user);
+    await _groupRepository.addMember(group.groupId, user);
   }
 
   @override

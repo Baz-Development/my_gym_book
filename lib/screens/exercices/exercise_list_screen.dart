@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/exercices_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
-import 'package:my_gym_book/screens/workouts/exercices/new_exercice/exercise_creation_screen.dart';
-import 'package:my_gym_book/screens/workouts/exercices/update_exercice/exercise_update_screen.dart';
+import 'package:my_gym_book/screens/exercices/new_exercice/exercise_creation_screen.dart';
+
+import 'update_exercice/exercise_update_screen.dart';
 
 class ExerciseListScreen extends StatefulWidget {
   final String workoutId;
 
-  ExerciseListScreen({required this.workoutId});
+  const ExerciseListScreen({super.key, required this.workoutId});
 
   @override
   _ExerciseListScreenState createState() => _ExerciseListScreenState();

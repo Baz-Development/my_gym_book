@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ternav_icons/ternav_icons.dart';
 
-import '../../constant.dart';
+import '../constant.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({

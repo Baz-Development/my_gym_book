@@ -14,7 +14,7 @@ class WorkoutScreen extends StatefulWidget {
 }
 class _WorkoutScreenState extends State<WorkoutScreen>{
   final WorkoutRepository _workoutRepository = WorkoutRepository();
-  StreamController<List<WorkoutModel>> _workoutsStreamController = StreamController<List<WorkoutModel>>();
+  final StreamController<List<WorkoutModel>> _workoutsStreamController = StreamController<List<WorkoutModel>>();
   List<WorkoutModel> workouts = [];
 
   @override

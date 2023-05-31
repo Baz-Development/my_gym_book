@@ -64,9 +64,9 @@ class _PartyScreenState extends State<PartyScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               debugPrint("Add group");
-              var value = Navigator.push(
+              var value = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const NewPartyScreen()),
               );
@@ -126,6 +126,7 @@ class _PartyScreenState extends State<PartyScreen> {
     debugPrint("Excluir grupo");
     await _groupRepository.deleteGroup(groups[index].groupId);
     _showSuccessMessage('Grupo deletado com sucesso!');
+    fetchData();
   }
 
   void _showSuccessMessage(String message) {
