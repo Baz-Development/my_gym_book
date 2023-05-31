@@ -28,7 +28,14 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   }
 
   void fetchAllUsers() async {
-    userList = await getAllUsers();
+    var group = await _groupRepository.getGroup(widget.group.groupId);
+    List<String> stringList = [];
+
+    for (var userModel in group!.users) {
+      stringList.add(userModel.email);
+    }
+
+    userList = await getItemsExcept(stringList);
     setState(() {
       filteredUserList = userList;
       isLoading = false;
