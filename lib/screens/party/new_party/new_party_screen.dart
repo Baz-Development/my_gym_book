@@ -69,19 +69,16 @@ class _NewPartyScreenState extends State<NewPartyScreen>{
                    ),
                  ),
                  const SizedBox(height: 20.0),
-                 Container(
-                   decoration: ThemeHelper().inputBoxDecorationShaddow(),
-                   child: TextFormField(
-                     controller: partyNameController,
-                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                     decoration: ThemeHelper().textInputDecoration('Nome do grupo', 'Insira o nome do grupo'),
-                     validator: (val) {
-                       if (val!.isEmpty) {
-                         return "A nome é obrigatório";
-                       }
-                       return null;
-                     },
-                   ),
+                 TextFormField(
+                   controller: partyNameController,
+                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                   decoration: const InputDecoration(labelText: 'Nome do grupo', hintText: 'Insira o nome do grupo'),
+                   validator: (val) {
+                     if (val!.isEmpty) {
+                       return "A nome é obrigatório";
+                     }
+                     return null;
+                   },
                  ),
                  const SizedBox(height: 20.0),
                  SizedBox(

@@ -20,8 +20,8 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
   void initState() {
     super.initState();
     FirebaseAnalyticsService.logEvent(
-        "workout_update_start",
-        {}
+      "workout_update_start",
+      {},
     );
   }
 
@@ -39,7 +39,10 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
               debugPrint("Add workout");
               final value = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ExerciseListScreen(workoutId: workout.workoutId)),
+                MaterialPageRoute(
+                  builder: (context) =>
+                      ExerciseListScreen(workoutId: workout.workoutId),
+                ),
               );
               if (value != null) {
                 debugPrint("Should Update workouts");
@@ -54,45 +57,49 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            width: double.infinity,
-            child: Image(image: NetworkImage("https://i.imgur.com/2osZGYs.jpg")),
-          ),
-          const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                labelText: 'Titulo:',
-              ),
-              controller: TextEditingController(text: workout.name),
-              onChanged: (value) {
-                // Atualizar a descrição do workout com o novo valor
-                workout.name = value;
-              },
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              width: double.infinity,
+              child: Image(image: NetworkImage("https://i.imgur.com/2osZGYs.jpg")),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 100),
-            child: Column(
-              children: [
-                TextField(
-                  decoration: const InputDecoration(
-                    labelText: 'Descrição:',
-                  ),
-                  controller: TextEditingController(text: workout.description),
-                  onChanged: (value) {
-                    // Atualizar a descrição do workout com o novo valor
-                    workout.description = value;
-                  },
-                  maxLines: null,
+            const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                decoration: const InputDecoration(
+                  labelText: 'Nome:',
+                  hintText: 'Insira um nome para seu treino...',
                 ),
-              ],
+                controller: TextEditingController(text: workout.name),
+                onChanged: (value) {
+                  // Atualizar a descrição do workout com o novo valor
+                  workout.name = value;
+                },
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 25, left: 20, right: 20, bottom: 100),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: const InputDecoration(
+                      labelText: 'Descrição:',
+                      hintText: 'Insira uma breve descrição do treino...',
+                    ),
+                    controller: TextEditingController(text: workout.description),
+                    onChanged: (value) {
+                      // Atualizar a descrição do workout com o novo valor
+                      workout.description = value;
+                    },
+                    maxLines: null,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Container(
         width: double.infinity,
@@ -103,8 +110,8 @@ class _UpdateWorkoutScreenState extends State<UpdateWorkoutScreen> {
             debugPrint("Editar treino");
             _workoutRepository.updateWorkout(workout.workoutId, workout);
             FirebaseAnalyticsService.logEvent(
-                "workout_update_finish",
-                {}
+              "workout_update_finish",
+              {},
             );
             Navigator.pop(context, workout);
           },
