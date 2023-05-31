@@ -126,6 +126,7 @@ class _PartyScreenState extends State<PartyScreen> {
     debugPrint("Excluir grupo");
     await _groupRepository.deleteGroup(groups[index].groupId);
     _showSuccessMessage('Grupo deletado com sucesso!');
+    fetchData();
   }
 
   void _showSuccessMessage(String message) {
