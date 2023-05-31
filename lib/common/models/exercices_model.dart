@@ -6,7 +6,6 @@ class ExercicesModel {
   int repetitionCount;
   int series;
   String weight;
-  bool isCompleted;
   int interval;
 
   ExercicesModel({
@@ -16,8 +15,7 @@ class ExercicesModel {
     required this.series,
     required this.repetitionCount,
     required this.weight,
-    required this.interval,
-    this.isCompleted = false
+    required this.interval
   });
 
   ExercicesModel.fromJson(Map<String, dynamic> json)
@@ -27,8 +25,7 @@ class ExercicesModel {
         series = json['series'],
         repetitionCount = json['repetitionCount'],
         weight = json['weight'],
-        interval = json['interval'],
-        isCompleted = json['isCompleted'];
+        interval = json['interval'];
 
   Map<String, dynamic> toJson() => {
     'exercisesId': exercisesId,
@@ -37,7 +34,6 @@ class ExercicesModel {
     'series': series,
     'repetitionCount': repetitionCount,
     'weight': weight,
-    'interval': interval,
-    'isCompleted': isCompleted
+    'interval': interval
   };
 }

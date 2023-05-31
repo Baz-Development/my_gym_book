@@ -240,38 +240,44 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen>{
   }
 
   Widget workoutListBuilder() {
-    return ListView.builder(
-      itemCount: workouts.length,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () => _navigateToWorkoutDetailsScreen(index),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    workouts[index].name,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.white),
-                    onPressed: () => _deleteWorkout(index),
-                  ),
-                ],
+    if (workouts.isNotEmpty) {
+      return ListView.builder(
+        itemCount: workouts.length,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: () => _navigateToWorkoutDetailsScreen(index),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      workouts[index].name,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.white),
+                      onPressed: () => _deleteWorkout(index),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    } else {
+      return const Center(
+        child: Text('Sem treinos disponíveis.'),
+      );
+    }
   }
 }
