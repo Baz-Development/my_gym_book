@@ -48,4 +48,17 @@ class WorkoutRepository {
 
     return workouts;
   }
+
+  Future<List<WorkoutModel>> getItemsExcept(List<String> excludedDocuments) async {
+    List<WorkoutModel> items = [];
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(_collectionPath).get();
+
+    for (var doc in querySnapshot.docs) {
+      if (!excludedDocuments.contains(doc.id)) {
+        items.add(WorkoutModel.fromJson(doc.data() as Map<String, dynamic>));
+      }
+    }
+    return items;
+  }
 }
