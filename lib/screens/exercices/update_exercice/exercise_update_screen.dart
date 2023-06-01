@@ -92,8 +92,8 @@ class ExerciseUpdateScreen extends StatelessWidget {
         return;
       }
 
-      fetchedWorkout.exercices.removeWhere((x) => x.exercisesId == exercice.exercisesId);
-      fetchedWorkout.exercices.add(updatedExercise);
+      fetchedWorkout.exercises.removeWhere((x) => x.exercisesId == exercice.exercisesId);
+      fetchedWorkout.exercises.add(updatedExercise);
 
       await _workoutRepository.updateWorkout(workoutId, fetchedWorkout);
 

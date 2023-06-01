@@ -32,7 +32,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
   void fetchData() async {
     final workoutResponse = await _workoutRepository.getWorkout(widget.workoutId);
     setState(() {
-      exercises = workoutResponse!.exercices;
+      exercises = workoutResponse!.exercises;
     });
   }
 

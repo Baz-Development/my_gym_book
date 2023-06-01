@@ -99,7 +99,7 @@ class ExerciseCreationScreen extends StatelessWidget {
       if (workout == null) {
         return;
       }
-      workout.exercices.add(newExercise);
+      workout.exercises.add(newExercise);
       await _workoutRepository.updateWorkout(workoutId, workout);
       FirebaseAnalyticsService.logEvent(
           "exercises_create_finish",

@@ -14,7 +14,7 @@ class EventModel {
   EventModel.fromJson(Map<String, dynamic> json)
       : title = json['title'],
         datetime = json['datetime'],
-        exercises = (json['exercices'] as List<dynamic>)
+        exercises = (json['exercises'] as List<dynamic>)
             .map((exerciseJson) => ExercisesStatusModel.fromJson(exerciseJson))
             .toList();
 

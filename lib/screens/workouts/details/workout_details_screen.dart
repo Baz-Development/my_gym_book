@@ -84,9 +84,9 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 80),
               child: ListView.builder(
-                itemCount: workout.exercices.length,
+                itemCount: workout.exercises.length,
                 itemBuilder: (context, index) {
-                  ExercisesModel cardItem = workout.exercices[index];
+                  ExercisesModel cardItem = workout.exercises[index];
                   return Card(
                     child: ListTile(
                       title: Text(cardItem.title),
@@ -126,7 +126,7 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
           onPressed: () async {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => WorkoutDoingScreen(exercices: workout.exercices)),
+              MaterialPageRoute(builder: (context) => WorkoutDoingScreen(exercices: workout.exercises)),
             );
           },
           style: ElevatedButton.styleFrom(
@@ -156,7 +156,7 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
     if(workout == null) {
       return;
     }
-    workout.exercices.removeAt(index);
+    workout.exercises.removeAt(index);
     await _workoutRepository.updateWorkout(workout.workoutId, workout);
     _showSuccessMessage("Exercicio removido com sucesso!");
     fetchData();

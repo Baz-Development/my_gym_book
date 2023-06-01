@@ -4,12 +4,12 @@ class WorkoutModel {
   String workoutId;
   String name;
   String description;
-  List<ExercisesModel> exercices;
+  List<ExercisesModel> exercises;
 
   WorkoutModel(
     this.workoutId,
     this.name,
-    this.exercices,
+    this.exercises,
     this.description
   );
 
@@ -17,7 +17,7 @@ class WorkoutModel {
       : workoutId = json['workoutId'],
         name = json['name'],
         description = json['description'],
-        exercices = (json['exercices'] as List<dynamic>)
+        exercises = (json['exercises'] as List<dynamic>)
             .map((exerciceJson) => ExercisesModel.fromJson(exerciceJson))
             .toList();
 
@@ -25,6 +25,6 @@ class WorkoutModel {
     'workoutId': workoutId,
     'name': name,
     'description': description,
-    'exercices': exercices.map((exercice) => exercice.toJson()).toList(),
+    'exercises': exercises.map((exercise) => exercise.toJson()).toList(),
   };
 }
