@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_gym_book/common/models/exercices_model.dart';
+import 'package:my_gym_book/common/models/exercises_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 
 class WorkoutDoingScreen extends StatefulWidget {
-  final List<ExercicesModel> exercices;
+  final List<ExercisesModel> exercices;
 
   const WorkoutDoingScreen({Key? key, required this.exercices}) : super(key: key);
 
@@ -24,7 +24,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<ExercicesModel> exercices = widget.exercices;
+    List<ExercisesModel> exercices = widget.exercices;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,7 +35,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       body: ListView.builder(
         itemCount: exercices.length,
         itemBuilder: (context, index) {
-          ExercicesModel cardItem = exercices[index];
+          ExercisesModel cardItem = exercices[index];
           return Card(
             child: ListTile(
               title: Text(cardItem.title),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_gym_book/common/models/exercices_model.dart';
+import 'package:my_gym_book/common/models/exercises_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
@@ -86,7 +86,7 @@ class ExerciseCreationScreen extends StatelessWidget {
     final interval = int.tryParse(_intervalController.text) ?? 0;
 
     if (title.isNotEmpty && series > 0 && repetitionCount > 0 && weight.isNotEmpty && interval > 0) {
-      final newExercise = ExercicesModel(
+      final newExercise = ExercisesModel(
         exercisesId: const Uuid().v4(),
         title: title,
         imagePath: 'https://i.imgur.com/2osZGYs.jpg',

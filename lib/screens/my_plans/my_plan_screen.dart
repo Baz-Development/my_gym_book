@@ -32,7 +32,6 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
   }
 
   List<EventModel> _getEventsForDay(DateTime day) {
-    // Implementation example
     return kEvents[day] ?? [];
   }
 
@@ -41,7 +40,7 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
+        _rangeStart = null;
         _rangeEnd = null;
       });
 
@@ -112,7 +111,6 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
           eventLoader: _getEventsForDay,
           startingDayOfWeek: StartingDayOfWeek.monday,
           calendarStyle: const CalendarStyle(
-            // Use `CalendarStyle` to customize the UI
             outsideDaysVisible: false,
           ),
           availableCalendarFormats: const {

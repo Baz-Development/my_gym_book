@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_gym_book/common/models/exercices_model.dart';
+import 'package:my_gym_book/common/models/exercises_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
@@ -86,7 +86,7 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
               child: ListView.builder(
                 itemCount: workout.exercices.length,
                 itemBuilder: (context, index) {
-                  ExercicesModel cardItem = workout.exercices[index];
+                  ExercisesModel cardItem = workout.exercices[index];
                   return Card(
                     child: ListTile(
                       title: Text(cardItem.title),

@@ -1,10 +1,10 @@
-import 'package:my_gym_book/common/models/exercices_model.dart';
+import 'package:my_gym_book/common/models/exercises_model.dart';
 
 class WorkoutModel {
   String workoutId;
   String name;
   String description;
-  List<ExercicesModel> exercices;
+  List<ExercisesModel> exercices;
 
   WorkoutModel(
     this.workoutId,
@@ -18,7 +18,7 @@ class WorkoutModel {
         name = json['name'],
         description = json['description'],
         exercices = (json['exercices'] as List<dynamic>)
-            .map((exerciceJson) => ExercicesModel.fromJson(exerciceJson))
+            .map((exerciceJson) => ExercisesModel.fromJson(exerciceJson))
             .toList();
 
   Map<String, dynamic> toJson() => {
