@@ -16,3 +16,21 @@ class UserModel {
     'imagePath': imagePath,
   };
 }
+
+class UserCheckModel extends UserModel {
+  bool isMember;
+
+  UserCheckModel(String fullname, String email, String imagePath, this.isMember)
+      : super(fullname, email, imagePath);
+
+  UserCheckModel.fromJson(Map<String, dynamic> json)
+      : isMember = json['isMember'],
+        super.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = super.toJson();
+    data['isMember'] = isMember;
+    return data;
+  }
+}

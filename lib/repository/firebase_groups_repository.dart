@@ -57,4 +57,13 @@ class GroupRepository {
     group.users.add(user);
     await updateGroup(groupId, group);
   }
+
+  Future<void> removeMember(String groupId, UserModel user) async {
+    var group = await getGroup(groupId);
+    if(group == null) {
+      return;
+    }
+    group.users.removeWhere((u) => u.email == user.email);
+    await updateGroup(groupId, group);
+  }
 }
