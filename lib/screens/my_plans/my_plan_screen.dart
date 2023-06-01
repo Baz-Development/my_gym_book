@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/events_model.dart';
+import 'package:my_gym_book/common/models/history_model.dart';
+import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
+import 'package:my_gym_book/repository/firebase_history_repository.dart';
 import 'package:my_gym_book/utils.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:uuid/uuid.dart';
 
 class MyPlansScreen extends StatefulWidget {
   const MyPlansScreen({super.key});
@@ -12,6 +17,7 @@ class MyPlansScreen extends StatefulWidget {
 }
 class _MyPlansScreenState extends State<MyPlansScreen>{
   late final ValueNotifier<List<EventModel>> _selectedEvents;
+  final HistoryRepository _historyRepository = HistoryRepository();
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _rangeStart;
@@ -23,12 +29,40 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
     initializeDateFormatting("pt_BR", null);
     _selectedDay = _focusedDay;
     _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    verify();
   }
 
   @override
   void dispose() {
     _selectedEvents.dispose();
     super.dispose();
+  }
+
+  Future<void> verify() async {
+    var email = FirebaseAuth.instance.currentUser?.email;
+    if (email == null) {
+      return;
+    }
+    var history = await _historyRepository.getMyHistories(email);
+    if(history == null) {
+      await createHistory();
+    }
+  }
+
+  Future<void> createHistory() async {
+    var email = FirebaseAuth.instance.currentUser?.email;
+    if(email == null) {
+      return;
+    }
+    var history = HistoryModel(
+        userEmail: email,
+        historyId: const Uuid().v4()
+    );
+    await _historyRepository.createHistory(history);
+    FirebaseAnalyticsService.logEvent(
+        "history_create",
+        {}
+    );
   }
 
   List<EventModel> _getEventsForDay(DateTime day) {
@@ -52,7 +86,18 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TableCalendar - Events'),
+        title: const Text('My Gym Book'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              debugPrint("add event");
+            },
+            icon: const Icon(
+              Icons.add
+            )
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -97,7 +142,6 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
       ),
     );
   }
-
 
   TableCalendar<EventModel> buildTableCalendar() {
     return TableCalendar<EventModel>(

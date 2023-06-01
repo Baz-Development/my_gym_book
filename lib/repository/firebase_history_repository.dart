@@ -6,11 +6,11 @@ class HistoryRepository {
   final String _collectionPath = 'history';
 
   Future<void> createHistory(HistoryModel history) async {
-    await _firestore.collection(_collectionPath).doc(history.userId).set(history.toJson());
+    await _firestore.collection(_collectionPath).doc(history.userEmail).set(history.toJson());
   }
 
-  Future<HistoryModel?> getMyHistories(String userId) async {
-    final DocumentSnapshot doc = await _firestore.collection(_collectionPath).doc(userId).get();
+  Future<HistoryModel?> getMyHistories(String email) async {
+    final DocumentSnapshot doc = await _firestore.collection(_collectionPath).doc(email).get();
     if (doc.exists) {
       return HistoryModel.fromJson(doc.data() as Map<String, dynamic>);
     } else {
