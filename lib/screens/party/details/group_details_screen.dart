@@ -78,30 +78,40 @@ class _PartyDetailsScreenState extends State<PartyDetailsScreen> {
             child: Image(image: NetworkImage("https://i.imgur.com/2osZGYs.jpg")),
           ),
           const SizedBox(height: 5),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Text(
-                  group.name,
-                  style: const TextStyle(fontSize: 18, color: Colors.black54),
-                ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Grupo - ",
-                        style: TextStyle(fontSize: 12, color: Colors.black45),
-                      ),
-                      Text(
-                        "${group.users.length} Membro(s)",
-                        style: const TextStyle(fontSize: 12, color: Colors.black45),
-                      ),
-                    ],
+          GestureDetector(
+            onTap: () async {
+              debugPrint("Add member");
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SearchUsersScreen(group: group)));
+              fetchWorkoutsData();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Text(
+                    group.name,
+                    style: const TextStyle(fontSize: 18, color: Colors.black54),
                   ),
-                ),
-              ],
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Grupo - ",
+                          style: TextStyle(fontSize: 12, color: Colors.black45),
+                        ),
+                        Text(
+                          "${group.users.length} Membro(s)",
+                          style: const TextStyle(fontSize: 12, color: Colors.black45),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           memberList(group),

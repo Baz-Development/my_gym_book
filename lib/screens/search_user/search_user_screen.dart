@@ -15,8 +15,8 @@ class SearchUsersScreen extends StatefulWidget {
 }
 
 class _SearchUsersScreenState extends State<SearchUsersScreen> {
-  List<UserModel> userList = [];
-  List<UserModel> filteredUserList = [];
+  List<UserCheckModel> userList = [];
+  List<UserCheckModel> filteredUserList = [];
   bool isLoading = true;
   TextEditingController searchController = TextEditingController();
   final GroupRepository _groupRepository = GroupRepository();
@@ -29,13 +29,10 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
 
   void fetchAllUsers() async {
     var group = await _groupRepository.getGroup(widget.group.groupId);
-    List<String> stringList = [];
-
-    for (var userModel in group!.users) {
-      stringList.add(userModel.email);
+    if(group == null) {
+      return;
     }
-
-    userList = await getItemsExcept(stringList);
+    userList = await getMembersUsers(group.users);
     setState(() {
       filteredUserList = userList;
       isLoading = false;
@@ -62,13 +59,31 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
           "user_added": email
         }
     );
-    Navigator.pop(context); // Fecha o modal
   }
 
   Future<void> addMemberInDB(String email) async {
     var group = widget.group;
     var user = await getUser(email);
     await _groupRepository.addMember(group.groupId, user);
+  }
+
+  Future<void> removeMember(String email) async {
+    await removeMemberInDB(email);
+    debugPrint('Membro adicionado: $email');
+    FirebaseAnalyticsService.logEvent(
+        "group_add_member_success",
+        {
+          "groupId": widget.group.groupId,
+          "user_added": email
+        }
+    );
+  }
+
+
+  Future<void> removeMemberInDB(String email) async {
+    var group = widget.group;
+    var user = await getUser(email);
+    await _groupRepository.removeMember(group.groupId, user);
   }
 
   @override
@@ -101,9 +116,17 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                 final user = filteredUserList[index];
                 return ListTile(
                   title: Text(user.email),
-                  onTap: () {
-                    addMember(user.email);
-                  },
+                  trailing: Checkbox(
+                    value: user.isMember,
+                    onChanged: (bool? value) async {
+                      if (value == true) {
+                        await addMember(user.email);
+                      } else {
+                        await removeMember(user.email);
+                      }
+                      fetchAllUsers();
+                    },
+                  ),
                 );
               },
             ),

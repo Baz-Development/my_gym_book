@@ -77,3 +77,18 @@ Future<List<UserModel>> getItemsExcept(List<String> excludedDocuments) async {
   }
   return items;
 }
+
+bool isUserInList(List<UserModel> users, String userEmail) {
+  return users.any((user) => user.email == userEmail);
+}
+
+Future<List<UserCheckModel>> getMembersUsers(List<UserModel> members) async {
+  List<UserCheckModel> extendedUsers = [];
+  var allUsers = await getAllUsers();
+  for (UserModel user in allUsers) {
+    var isMember = isUserInList(members, user.email);
+    UserCheckModel extendedUser = UserCheckModel(user.fullname, user.email, user.imagePath, isMember);
+    extendedUsers.add(extendedUser);
+  }
+  return extendedUsers;
+}
