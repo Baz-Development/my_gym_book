@@ -18,7 +18,7 @@ class WorkoutModel {
         name = json['name'],
         description = json['description'],
         exercises = (json['exercises'] as List<dynamic>)
-            .map((exerciceJson) => ExercisesModel.fromJson(exerciceJson))
+            .map((exerciseJson) => ExercisesModel.fromJson(exerciseJson))
             .toList();
 
   Map<String, dynamic> toJson() => {

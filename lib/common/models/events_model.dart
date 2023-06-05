@@ -1,27 +1,19 @@
-import 'package:my_gym_book/common/models/exercise_status_model.dart';
-
 class EventModel {
   String title;
-  DateTime datetime;
-  List<ExercisesStatusModel> exercises;
+  List<String> exercises;
 
   EventModel({
     required this.title,
-    required this.datetime,
     this.exercises = const []
   });
 
   EventModel.fromJson(Map<String, dynamic> json)
       : title = json['title'],
-        datetime = json['datetime'],
-        exercises = (json['exercises'] as List<dynamic>)
-            .map((exerciseJson) => ExercisesStatusModel.fromJson(exerciseJson))
-            .toList();
+        exercises = (json['exercises'] as List<dynamic>).cast<String>();
 
   Map<String, dynamic> toJson() => {
     'title': title,
-    'datetime': datetime,
-    'exercises': exercises.map((exercise) => exercise.toJson()).toList()
+    'exercises': exercises
   };
 
   @override
