@@ -60,7 +60,7 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
     );
     await _historyRepository.createHistory(history);
     FirebaseAnalyticsService.logEvent(
-        "history_create",
+        "history_create_home",
         {}
     );
   }
