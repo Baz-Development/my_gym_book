@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_gym_book/common/models/events_model.dart';
 import 'package:my_gym_book/common/models/history_model.dart';
 
 class HistoryRepository {
@@ -34,5 +35,41 @@ class HistoryRepository {
 
   Future<void> deleteHistory(String historyId) async {
     await _firestore.collection(_collectionPath).doc(historyId).delete();
+  }
+
+  Future<List<dynamic>> getEventsByEmailAndDate(String email, String date) async {
+    // Obtém uma instância do Firestore
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Realiza uma consulta para obter o documento com o e-mail fornecido
+    QuerySnapshot querySnapshot = await firestore
+        .collection(_collectionPath)
+        .where('Email', isEqualTo: email)
+        .limit(1)
+        .get();
+
+    // Verifica se o resultado da consulta possui algum documento
+    if (querySnapshot.docs.isNotEmpty) {
+      // Obtém o primeiro documento retornado pela consulta
+      DocumentSnapshot docSnapshot = querySnapshot.docs.first;
+
+      // Obtém o mapa de dados do documento
+      Map<String, dynamic> data = docSnapshot.data() as Map<String, dynamic>;
+
+      // Obtém o campo "historyEvents"
+      List<dynamic> historyEvents = data['historyEvents'];
+
+      // Procura pelo objeto correspondente à data fornecida
+      for (var event in historyEvents) {
+        if (event['date'] == date) {
+          // Retorna o campo "events" do objeto encontrado
+          return event['events'];
+        }
+      }
+    }
+
+    // Caso não encontre um documento com o e-mail fornecido, não encontre um objeto
+    // com a data especificada ou não haja eventos, retorna uma lista vazia
+    return [];
   }
 }
