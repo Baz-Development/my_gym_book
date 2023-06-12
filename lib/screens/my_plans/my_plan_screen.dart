@@ -1,5 +1,4 @@
-import 'dart:collection';
-
+import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/models/events_model.dart';
@@ -17,30 +16,31 @@ class MyPlansScreen extends StatefulWidget {
   _MyPlansScreenState createState() => _MyPlansScreenState();
 }
 class _MyPlansScreenState extends State<MyPlansScreen>{
-  late final ValueNotifier<List<EventModel>> _selectedEvents;
   final HistoryRepository _historyRepository = HistoryRepository();
+  final StreamController<List<EventModel>> _eventsStreamController = StreamController<List<EventModel>>();
   final kToday = DateTime.now();
   late DateTime kFirstDay;
   late DateTime kLastDay;
+  List<EventModel> events = [];
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
 
   @override
-  void initState() {
+  void initState() { //
     super.initState();
     initializeDateFormatting("pt_BR", null);
     kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
     kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
     _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
     verify();
+    _getEvents();
   }
 
   @override
   void dispose() {
-    _selectedEvents.dispose();
+    _eventsStreamController.close();
     super.dispose();
   }
 
@@ -71,38 +71,28 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
     );
   }
 
-  List<EventModel> _getEventsForDay(DateTime day) {
-    return getKEvents()[day] ?? [];
+  String formatDateTime(DateTime dateTime) {
+    String year = dateTime.year.toString();
+    String month = dateTime.month.toString().padLeft(2, '0');
+    String day = dateTime.day.toString().padLeft(2, '0');
+
+    return '$year-$month-$day';
   }
 
-  LinkedHashMap getKEvents() {
-    return LinkedHashMap<DateTime, List<EventModel>>(
-      equals: isSameDay,
-      hashCode: getHashCode,
-    )
-      ..addAll(getKEventSource());
-  }
-
-  getKEventSource() {
-    return {
-      for (var item in List.generate(50, (index) => index)) DateTime.utc(
-          kFirstDay.year, kFirstDay.month, item * 5): List.generate(
-          item % 4 + 1, (index) =>
-          EventModel(title: 'Event $item | ${index + 1}',
-              exercises: []))
+  Future<void> _getEvents() async {
+    var email = FirebaseAuth.instance.currentUser?.email;
+    if(email == null) {
+      return;
     }
-      ..addAll({
-        kToday: [
-          EventModel(title: 'Today\'s Event 1',
-              exercises: []),
-          EventModel(title: 'Today\'s Event 2',
-              exercises: []),
-        ],
-      });
-    }
-
-  int getHashCode(DateTime key) {
-    return key.day * 1000000 + key.month * 10000 + key.year;
+    var date = formatDateTime(_focusedDay);
+    var eventsRes = await _historyRepository.getEventsByEmailAndDate(
+        email,
+        date
+    );
+    setState(() {
+      events = eventsRes;
+    });
+    _eventsStreamController.add(events);
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -113,8 +103,7 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
         _rangeStart = null;
         _rangeEnd = null;
       });
-
-      _selectedEvents.value = _getEventsForDay(selectedDay);
+      _getEvents();
     }
   }
 
@@ -136,43 +125,68 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
         ],
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           buildTableCalendar(),
+          const SizedBox(height: 15.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Text(
+              "Eventos:",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
           const SizedBox(height: 8.0),
-          buildEventList(),
+          StreamBuilder<List<EventModel>>(
+            stream: _eventsStreamController.stream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text('Sem dados disponiveis.'),
+                );
+              }
+              events = snapshot.data!;
+              return buildEventList(eventsData: events);
+            },
+          ),
         ],
       ),
     );
   }
 
-  Expanded buildEventList() {
+  Widget buildEventList({required List<EventModel> eventsData}) {
     return Expanded(
-      child: ValueListenableBuilder<List<EventModel>>(
-        valueListenable: _selectedEvents,
-        builder: (context, value, _) {
-          return ListView.builder(
-            itemCount: value.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 4.0,
+      child: ListView.builder(
+        itemCount: eventsData.length,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 12.0,
+              vertical: 4.0,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: ListTile(
+              onTap: () => debugPrint(eventsData[index].title),
+              title: Text(
+                eventsData[index].title,
+                style: const TextStyle(
+                  color: Colors.white,
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                child: ListTile(
-                  onTap: () => debugPrint('${value[index]}'),
-                  title: Text(
-                    '${value[index]}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              );
-            },
+              ),
+            ),
           );
         },
       ),
@@ -188,7 +202,7 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
       selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
       rangeStartDay: _rangeStart,
       rangeEndDay: _rangeEnd,
-      eventLoader: _getEventsForDay,
+      eventLoader: (day) => [], // Fazer nova listagem de eventos por data
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: const CalendarStyle(
         outsideDaysVisible: false,
@@ -196,11 +210,10 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
       availableCalendarFormats: const {
         CalendarFormat.month: 'Mês'
       },
-      onDaySelected: _onDaySelected,
       onPageChanged: (focusedDay) {
         _focusedDay = focusedDay;
       },
+      onDaySelected: _onDaySelected,
     );
   }
-
 }
