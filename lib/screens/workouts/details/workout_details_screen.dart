@@ -126,7 +126,7 @@ class _WorkoutDetailsScreenState extends State<WorkoutDetailsScreen> {
           onPressed: () async {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => WorkoutDoingScreen(exercices: workout.exercises)),
+              MaterialPageRoute(builder: (context) => WorkoutDoingScreen(exercices: workout.exercises, title: workout.name)),
             );
           },
           style: ElevatedButton.styleFrom(

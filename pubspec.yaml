@@ -45,7 +45,7 @@ dependencies:
   hexcolor: ^3.0.1
   font_awesome_flutter: ^10.4.0
   flashy_tab_bar2: ^0.0.6
-  fl_chart: ^0.36.1
+  fl_chart: ^0.63.0
   ternav_icons: ^1.0.0
   percent_indicator: ^4.2.2
   table_calendar: ^3.0.1
