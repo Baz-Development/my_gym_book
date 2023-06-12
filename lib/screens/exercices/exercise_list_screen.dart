@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_gym_book/common/models/exercices_model.dart';
+import 'package:my_gym_book/common/models/exercises_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 import 'package:my_gym_book/screens/exercices/new_exercice/exercise_creation_screen.dart';
@@ -16,7 +16,7 @@ class ExerciseListScreen extends StatefulWidget {
 }
 
 class _ExerciseListScreenState extends State<ExerciseListScreen> {
-  List<ExercicesModel> exercises = [];
+  List<ExercisesModel> exercises = [];
   final WorkoutRepository _workoutRepository = WorkoutRepository();
 
   @override
@@ -32,7 +32,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
   void fetchData() async {
     final workoutResponse = await _workoutRepository.getWorkout(widget.workoutId);
     setState(() {
-      exercises = workoutResponse!.exercices;
+      exercises = workoutResponse!.exercises;
     });
   }
 
@@ -78,7 +78,7 @@ class _ExerciseListScreenState extends State<ExerciseListScreen> {
     }
   }
 
-  void _navigateToExerciseUpdateScreen(ExercicesModel exercise) async {
+  void _navigateToExerciseUpdateScreen(ExercisesModel exercise) async {
     final newExercise = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ExerciseUpdateScreen(workoutId: widget.workoutId, exercice: exercise)),

@@ -1,5 +1,4 @@
-
-class ExercicesModel {
+class ExercisesModel {
   String exercisesId;
   String title;
   String imagePath;
@@ -8,7 +7,7 @@ class ExercicesModel {
   String weight;
   int interval;
 
-  ExercicesModel({
+  ExercisesModel({
     required this.exercisesId,
     required this.title,
     required this.imagePath,
@@ -18,7 +17,7 @@ class ExercicesModel {
     required this.interval
   });
 
-  ExercicesModel.fromJson(Map<String, dynamic> json)
+  ExercisesModel.fromJson(Map<String, dynamic> json)
       : exercisesId = json['exercisesId'],
         title = json['title'],
         imagePath = json['imagePath'],

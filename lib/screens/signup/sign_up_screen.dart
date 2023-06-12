@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_gym_book/common/exceptions/FirebaseCustomException.dart';
+import 'package:my_gym_book/common/models/history_model.dart';
 import 'package:my_gym_book/common/models/user_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/common/services/firebase_auth_service.dart';
 import 'package:my_gym_book/common/theme_helper.dart';
+import 'package:my_gym_book/repository/firebase_history_repository.dart';
 import 'package:my_gym_book/repository/firebase_user_repository.dart';
 import 'package:my_gym_book/screens/home/home_screen.dart';
 import 'package:my_gym_book/widgets/header_widget.dart';
+import 'package:uuid/uuid.dart';
 
 
 class SignUpScreen extends  StatefulWidget{
@@ -24,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen>{
   bool checkedValue = false;
   bool checkboxValue = false;
   String fullName = "";
+  final HistoryRepository _historyRepository = HistoryRepository();
 
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -229,6 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen>{
       "https://thumbs.dreamstime.com/z/imagem-do-perfil-do-homem-34444437.jpg"
     );
     await createUser(user);
+    await createHistory(email);
   }
 
   Future<void> signUpWithFirebaseBaseEmail(String email,String fullname, String password) async {
@@ -271,5 +276,20 @@ class _SignUpScreenState extends State<SignUpScreen>{
         },
       );
     }
+  }
+
+  Future<void> createHistory(email) async {
+    if(email == null) {
+      return;
+    }
+    var history = HistoryModel(
+      userEmail: email,
+      historyId: const Uuid().v4()
+    );
+    await _historyRepository.createHistory(history);
+    FirebaseAnalyticsService.logEvent(
+      "history_create_signup",
+      {}
+    );
   }
 }

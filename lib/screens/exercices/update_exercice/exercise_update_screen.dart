@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_gym_book/common/models/exercices_model.dart';
+import 'package:my_gym_book/common/models/exercises_model.dart';
 import 'package:my_gym_book/common/models/workouts_model.dart';
 import 'package:my_gym_book/repository/firebase_workout_repository.dart';
 
 class ExerciseUpdateScreen extends StatelessWidget {
-  final ExercicesModel exercice;
+  final ExercisesModel exercice;
   final String workoutId;
   final WorkoutRepository _workoutRepository = WorkoutRepository();
 
@@ -77,7 +77,7 @@ class ExerciseUpdateScreen extends StatelessWidget {
     final interval = int.tryParse(_intervalController.text) ?? 0;
 
     if (title.isNotEmpty && series > 0 && repetitionCount > 0 && weight.isNotEmpty && interval > 0) {
-      final updatedExercise = ExercicesModel(
+      final updatedExercise = ExercisesModel(
         exercisesId: exercice.exercisesId,
         title: title,
         imagePath: 'https://i.imgur.com/2osZGYs.jpg',
@@ -92,8 +92,8 @@ class ExerciseUpdateScreen extends StatelessWidget {
         return;
       }
 
-      fetchedWorkout.exercices.removeWhere((x) => x.exercisesId == exercice.exercisesId);
-      fetchedWorkout.exercices.add(updatedExercise);
+      fetchedWorkout.exercises.removeWhere((x) => x.exercisesId == exercice.exercisesId);
+      fetchedWorkout.exercises.add(updatedExercise);
 
       await _workoutRepository.updateWorkout(workoutId, fetchedWorkout);
 

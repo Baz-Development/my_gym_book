@@ -1,5 +1,4 @@
 import 'package:my_gym_book/common/models/user_model.dart';
-import 'package:my_gym_book/common/models/workouts_model.dart';
 
 class GroupModel {
   String groupId;
