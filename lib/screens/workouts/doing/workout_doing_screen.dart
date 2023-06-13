@@ -12,6 +12,8 @@ import 'package:my_gym_book/screens/workouts/doing/waiting_screen.dart';
 import 'package:my_gym_book/screens/workouts/doing/workout_finished_screen.dart';
 import 'dart:async';
 
+import 'package:uuid/uuid.dart';
+
 class WorkoutDoingScreen extends StatefulWidget {
   final List<ExercisesModel> exercices;
   String title;
@@ -42,7 +44,10 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   void initState() {
     super.initState();
     setState(() {
-      event = EventModel(title: widget.title);
+      event = EventModel(
+        eventId: const Uuid().v4(),
+        title: widget.title
+      );
     });
     var firstExercise = widget.exercices.first;
     setState(() {
@@ -71,26 +76,22 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       appBar: AppBar(
         title: Text(_screenTitle),
         centerTitle: true,
-        leading: const BackButton(),
       ),
       body: _atualScreen,
-      floatingActionButton: Visibility(
-        visible: !isWaiting,
-        child: Container(
-          width: double.infinity,
-          height: 50,
-          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-          child: ElevatedButton(
-            onPressed: () async {
-              await floatingButtonOnClick(context);
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.0),
-              ),
+      floatingActionButton: Container(
+        width: double.infinity,
+        height: 50,
+        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        child: ElevatedButton(
+          onPressed: () async {
+            await floatingButtonOnClick(context);
+          },
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            child: const Text("Continuar"),
           ),
+          child: const Text("Continuar"),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -106,11 +107,17 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       isWaiting = !isWaiting;
     });
     if(isWaiting) {
-      await Navigator.push(
+      var value = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => WaitingScreen(duration: _timerSeconds)),
       );
-      await nextScreen();
+      if(value == 1) {
+        await nextScreen();
+      } else {
+        setState(() {
+          isWaiting = !isWaiting;
+        });
+      }
     } else {
       if(_atualSerie >= _atualExercise.series) {
         var index = exercises.indexOf(_atualExercise);

@@ -35,7 +35,7 @@ class _WaitingScreenState extends State<WaitingScreen> {
         } else {
           _pausado = true;
           _timer.cancel();
-          Navigator.pop(context);
+          Navigator.pop(context, 1);
         }
       });
     });
