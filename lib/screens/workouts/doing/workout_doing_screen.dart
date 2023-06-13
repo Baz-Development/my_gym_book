@@ -29,6 +29,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   final HistoryRepository _historyRepository = HistoryRepository();
   final String _screenTitle = "Bora treinar!";
   List<ExercisesModel> exercises = [];
+  List<ExercisesModel> finishedExercises = [];
   late ExercisesModel _atualExercise;
   late EventModel event;
   late int _repetitions;
@@ -97,7 +98,6 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   }
 
   Future<void> floatingButtonOnClick(BuildContext context) async {
-    debugPrint("floating button on click");
     await nextScreen();
   }
 
@@ -106,20 +106,21 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       isWaiting = !isWaiting;
     });
     if(isWaiting) {
-      debugPrint("intervalo");
       await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => WaitingScreen(duration: _timerSeconds)),
       );
       await nextScreen();
     } else {
-      debugPrint("exercicio $_atualSerie >= ${_atualExercise.series}");
       if(_atualSerie >= _atualExercise.series) {
-        debugPrint("Acabou as series");
         var index = exercises.indexOf(_atualExercise);
-        debugPrint("verify: $index > ${exercises.length}");
+        _atualExercise.repetitionCount = int.tryParse(_repetitionsController.text) ?? 0;
+        _atualExercise.weight = int.tryParse(_weightController.text) ?? 0;
+        finishedExercises.add(_atualExercise);
         if(index+1 >= exercises.length) { // check isFinished
-          debugPrint("Finished");
+          setState(() {
+            event.exercises = finishedExercises;
+          });
           _historyRepository.addEvent(date: DateTime.now(), event: event);
           await Navigator.push(
             context,
@@ -143,7 +144,6 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
           _atualSerie += 1;
           _atualScreen = _exerciseScreenBuilder(exercise: _atualExercise);
         });
-        debugPrint("serie: $_atualSerie");
       }
     }
   }
