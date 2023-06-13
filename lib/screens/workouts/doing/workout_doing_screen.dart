@@ -7,6 +7,7 @@ import 'package:my_gym_book/common/filters/onlydigits.dart';
 import 'package:my_gym_book/common/models/events_model.dart';
 import 'package:my_gym_book/common/models/exercises_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
+import 'package:my_gym_book/repository/firebase_history_repository.dart';
 import 'package:my_gym_book/screens/workouts/doing/waiting_screen.dart';
 import 'package:my_gym_book/screens/workouts/doing/workout_finished_screen.dart';
 import 'dart:async';
@@ -25,6 +26,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   final TextEditingController _repetitionsController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
   late Widget _atualScreen = const CircularProgressIndicator();
+  final HistoryRepository _historyRepository = HistoryRepository();
   final String _screenTitle = "Bora treinar!";
   List<ExercisesModel> exercises = [];
   late ExercisesModel _atualExercise;
@@ -38,7 +40,9 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   @override
   void initState() {
     super.initState();
-    event.title = widget.title;
+    setState(() {
+      event = EventModel(title: widget.title);
+    });
     var firstExercise = widget.exercices.first;
     setState(() {
       exercises = widget.exercices;
@@ -116,6 +120,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
         debugPrint("verify: $index > ${exercises.length}");
         if(index+1 >= exercises.length) { // check isFinished
           debugPrint("Finished");
+          _historyRepository.addEvent(date: DateTime.now(), event: event);
           await Navigator.push(
             context,
             MaterialPageRoute(
