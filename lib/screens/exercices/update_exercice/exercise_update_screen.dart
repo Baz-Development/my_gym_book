@@ -18,7 +18,7 @@ class ExerciseUpdateScreen extends StatelessWidget {
     _titleController.text = exercice.title;
     _seriesController.text = exercice.series.toString();
     _repetitionCountController.text = exercice.repetitionCount.toString();
-    _weightController.text = exercice.weight;
+    _weightController.text = "${exercice.weight}";
     _intervalController.text = exercice.interval.toString();
   }
 
@@ -73,10 +73,10 @@ class ExerciseUpdateScreen extends StatelessWidget {
     final title = _titleController.text;
     final series = int.tryParse(_seriesController.text) ?? 0;
     final repetitionCount = int.tryParse(_repetitionCountController.text) ?? 0;
-    final weight = _weightController.text;
+    final weight = int.tryParse(_weightController.text) ?? 0;
     final interval = int.tryParse(_intervalController.text) ?? 0;
 
-    if (title.isNotEmpty && series > 0 && repetitionCount > 0 && weight.isNotEmpty && interval > 0) {
+    if (title.isNotEmpty && series > 0 && repetitionCount > 0 && weight > 0 && interval > 0) {
       final updatedExercise = ExercisesModel(
         exercisesId: exercice.exercisesId,
         title: title,

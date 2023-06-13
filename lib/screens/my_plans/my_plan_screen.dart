@@ -5,6 +5,7 @@ import 'package:my_gym_book/common/models/events_model.dart';
 import 'package:my_gym_book/common/models/history_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
 import 'package:my_gym_book/repository/firebase_history_repository.dart';
+import 'package:my_gym_book/screens/event/details/event_details_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:uuid/uuid.dart';
@@ -179,7 +180,12 @@ class _MyPlansScreenState extends State<MyPlansScreen>{
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: ListTile(
-              onTap: () => debugPrint(eventsData[index].title),
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EventDetailsScreen(event: eventsData[index])),
+                );
+              },
               title: Text(
                 eventsData[index].title,
                 style: const TextStyle(

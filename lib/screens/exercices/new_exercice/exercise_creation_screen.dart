@@ -82,10 +82,10 @@ class ExerciseCreationScreen extends StatelessWidget {
     final title = _titleController.text;
     final series = int.tryParse(_seriesController.text) ?? 0;
     final repetitionCount = int.tryParse(_repetitionCountController.text) ?? 0;
-    final weight = _weightController.text;
+    final weight = int.tryParse(_weightController.text) ?? 0;
     final interval = int.tryParse(_intervalController.text) ?? 0;
 
-    if (title.isNotEmpty && series > 0 && repetitionCount > 0 && weight.isNotEmpty && interval > 0) {
+    if (title.isNotEmpty && series > 0 && repetitionCount > 0 && weight > 0 && interval > 0) {
       final newExercise = ExercisesModel(
         exercisesId: const Uuid().v4(),
         title: title,

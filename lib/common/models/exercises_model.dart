@@ -4,7 +4,7 @@ class ExercisesModel {
   String imagePath;
   int repetitionCount;
   int series;
-  String weight;
+  int weight;
   int interval;
 
   ExercisesModel({

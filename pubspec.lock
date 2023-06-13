@@ -229,10 +229,10 @@ packages:
     dependency: "direct main"
     description:
       name: fl_chart
-      sha256: "0c8baa9d4db70817d27099efb99e40e4164448bb86f73217216ef65b3976bc4f"
+      sha256: c1e26c7e48496be85104c16c040950b0436674cdf0737f3f6e95511b2529b592
       url: "https://pub.dev"
     source: hosted
-    version: "0.36.4"
+    version: "0.63.0"
   flashy_tab_bar2:
     dependency: "direct main"
     description:
@@ -453,14 +453,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.6"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      sha256: "67fc27ed9639506c856c840ccce7594d0bdcd91bc8d53d6e52359449a1d50602"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.1"
   percent_indicator:
     dependency: "direct main"
     description:
@@ -674,6 +666,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  wave:
+    dependency: "direct main"
+    description:
+      name: wave
+      sha256: "01ebccb4caa9b150cbe4763aa2a23501bb582843a1f96281868bbb23cb4db1f9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.2"
   win32:
     dependency: transitive
     description:
@@ -707,5 +707,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.0.0-0 <4.0.0"
+  dart: ">=3.0.0 <4.0.0"
   flutter: ">=3.3.0"
