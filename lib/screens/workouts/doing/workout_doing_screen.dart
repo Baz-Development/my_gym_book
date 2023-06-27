@@ -143,6 +143,8 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
           _atualSerie = 1;
           _repetitions = _atualExercise.repetitionCount;
           _weight = _atualExercise.weight;
+          _repetitionsController.text = _atualExercise.repetitionCount.toString();
+          _weightController.text = _atualExercise.weight.toString();
           _timerSeconds = _atualExercise.interval;
           _atualScreen = _exerciseScreenBuilder(exercise: _atualExercise);
         });
