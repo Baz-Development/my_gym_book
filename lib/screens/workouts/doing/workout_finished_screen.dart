@@ -19,6 +19,7 @@ class _WorkoutFinishedScreenState extends State<WorkoutFinishedScreen> {
     super.initState();
     _finishedExercises = widget.finishedExercises;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,58 +132,64 @@ class _WorkoutFinishedScreenState extends State<WorkoutFinishedScreen> {
             ),
           ),
           const SizedBox(height: 25),
-          const Text("Estatisticas de hoje"),
+          const Text(
+            "Estatisticas de hoje",
+            style: TextStyle(fontSize: 24),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: _finishedExercises.length,
               itemBuilder: (context, index) {
                 ExercisesModel cardItem = _finishedExercises[index];
                 double energyExpenditure = 5 * cardItem.weight * ((cardItem.duration ?? 0/60)/60);
-                return Card(
-                  color: Colors.blue,
-                  child: ListTile(
-                    title: Text(cardItem.title),
-                    subtitle: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(Icons.schedule),
-                            Row(
-                              children: [
-                                Text((cardItem.duration ?? 0).toString()),
-                                const Text(' segundos'),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(Icons.bolt),
-                            Row(
-                              children: [
-                                Text(energyExpenditure.toStringAsFixed(1)),
-                                const Text(' calorias'),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            const Icon(Icons.fitness_center),
-                            Row(
-                              children: [
-                                Text(cardItem.weight.toString()),
-                                const Text(' Kg'),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    leading: Image(
-                      image: NetworkImage(cardItem.imagePath),
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20),
+                  child: Card(
+                    color: Colors.blue,
+                    child: ListTile(
+                      title: Text(cardItem.title),
+                      subtitle: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.schedule),
+                              Row(
+                                children: [
+                                  Text((cardItem.duration ?? 0).toString()),
+                                  const Text(' segundos'),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(Icons.bolt),
+                              Row(
+                                children: [
+                                  Text(energyExpenditure.toStringAsFixed(1)),
+                                  const Text(' calorias'),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(Icons.fitness_center),
+                              Row(
+                                children: [
+                                  Text(cardItem.weight.toString()),
+                                  const Text(' Kg'),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      leading: Image(
+                        image: NetworkImage(cardItem.imagePath),
+                      ),
                     ),
                   ),
                 );
