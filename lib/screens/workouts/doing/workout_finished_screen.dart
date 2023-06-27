@@ -19,7 +19,7 @@ class _WorkoutFinishedScreenState extends State<WorkoutFinishedScreen> {
     super.initState();
     _finishedExercises = widget.finishedExercises;
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
