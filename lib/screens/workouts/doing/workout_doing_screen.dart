@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:my_gym_book/common/filters/onlydigits.dart';
+import 'package:my_gym_book/common/helpers/timer.dart';
 import 'package:my_gym_book/common/models/events_model.dart';
 import 'package:my_gym_book/common/models/exercises_model.dart';
 import 'package:my_gym_book/common/services/firebase_analytics_service.dart';
@@ -40,6 +41,9 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   int _atualSerie = 1;
   late int _weight;
 
+  final TimerService _timerService = TimerService();
+  int _elapsedSeconds = 0;
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +54,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       );
     });
     var firstExercise = widget.exercices.first;
+    _startTimer();
     setState(() {
       exercises = widget.exercices;
       // seleciona o 1 exercicio
@@ -68,6 +73,12 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
         "workout_doing",
         {}
     );
+  }
+
+  @override
+  void dispose() {
+    _timerService.dispose();
+    super.dispose();
   }
 
   @override
@@ -105,15 +116,21 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   Future<void> nextScreen() async {
     var index = exercises.indexOf(_atualExercise);
     if(index+1 >= exercises.length) {
+      _stopTimer();
+      setState(() {
+        _atualExercise.duration = _elapsedSeconds;
+      });
+      finishedExercises.add(_atualExercise);
       setState(() {
         event.exercises = finishedExercises;
       });
       _historyRepository.addEvent(date: DateTime.now(), event: event);
+      _timerService.dispose();
       await Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) =>
-              WorkoutFinishedScreen(),
+              WorkoutFinishedScreen(finishedExercises: finishedExercises,),
         ),
       );
       return;
@@ -122,6 +139,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       isWaiting = !isWaiting;
     });
     if(isWaiting) {
+      _pauseOrResumeTimer();
       var value = await Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => WaitingScreen(duration: _timerSeconds)),
@@ -137,7 +155,12 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       if(_atualSerie >= _atualExercise.series) {
         _atualExercise.repetitionCount = int.tryParse(_repetitionsController.text) ?? 0;
         _atualExercise.weight = int.tryParse(_weightController.text) ?? 0;
+        _stopTimer();
+        setState(() {
+          _atualExercise.duration = _elapsedSeconds;
+        });
         finishedExercises.add(_atualExercise);
+        _startTimer();
         setState(() {
           _atualExercise = exercises[index+1];
           _atualSerie = 1;
@@ -149,6 +172,7 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
           _atualScreen = _exerciseScreenBuilder(exercise: _atualExercise);
         });
       } else {
+        _pauseOrResumeTimer();
         setState(() {
           _atualSerie += 1;
           _atualScreen = _exerciseScreenBuilder(exercise: _atualExercise);
@@ -441,5 +465,28 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
         )
       ),
     );
+  }
+
+  void _startTimer() {
+    _timerService.startTimer((seconds) {
+      setState(() {
+        _elapsedSeconds = seconds;
+      });
+    });
+  }
+
+  void _pauseOrResumeTimer() {
+    if (_timerService.isRunning) {
+      _timerService.pauseTimer();
+    } else {
+      _startTimer();
+    }
+  }
+
+  void _stopTimer() {
+    int elapsedSeconds = _timerService.stopTimer();
+    setState(() {
+      _elapsedSeconds = elapsedSeconds;
+    });
   }
 }
