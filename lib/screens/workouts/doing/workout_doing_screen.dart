@@ -103,6 +103,21 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
   }
 
   Future<void> nextScreen() async {
+    var index = exercises.indexOf(_atualExercise);
+    if(index+1 >= exercises.length) {
+      setState(() {
+        event.exercises = finishedExercises;
+      });
+      _historyRepository.addEvent(date: DateTime.now(), event: event);
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              WorkoutFinishedScreen(),
+        ),
+      );
+      return;
+    }
     setState(() {
       isWaiting = !isWaiting;
     });
@@ -120,24 +135,9 @@ class _WorkoutDoingScreenState extends State<WorkoutDoingScreen> {
       }
     } else {
       if(_atualSerie >= _atualExercise.series) {
-        var index = exercises.indexOf(_atualExercise);
         _atualExercise.repetitionCount = int.tryParse(_repetitionsController.text) ?? 0;
         _atualExercise.weight = int.tryParse(_weightController.text) ?? 0;
         finishedExercises.add(_atualExercise);
-        if(index+1 >= exercises.length) { // check isFinished
-          setState(() {
-            event.exercises = finishedExercises;
-          });
-          _historyRepository.addEvent(date: DateTime.now(), event: event);
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                WorkoutFinishedScreen(),
-            ),
-          );
-          return;
-        }
         setState(() {
           _atualExercise = exercises[index+1];
           _atualSerie = 1;
